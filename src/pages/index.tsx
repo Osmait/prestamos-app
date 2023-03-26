@@ -1,18 +1,17 @@
+"use client";
 
-
-
-import { Button } from '@nextui-org/react'
-
-
+import useAuth from "@/hooks/useAuth";
+import { Button, Text } from "@nextui-org/react";
 
 export default function Home() {
+  const { user } = useAuth();
+  if (user == null) {
+    return "No autorizado";
+  }
+
   return (
     <>
-
-      <main>
-        <Button>Click me</Button>
-    
-      </main>
+      <main></main>
     </>
-  )
+  );
 }

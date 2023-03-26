@@ -13,8 +13,11 @@ import {
   Grid,
 } from "@nextui-org/react";
 import Link from "next/link";
+import useAuth from "@/hooks/useAuth";
 
 function Layout({ children }: any) {
+  const { user } = useAuth();
+
   return (
     <>
       <Head>
@@ -23,10 +26,16 @@ function Layout({ children }: any) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar variant={"floating"}>
+      <Navbar variant={"static"}>
         <Navbar.Content>
-          <Navbar.Link hideIn={"xs"}> Inicio</Navbar.Link>
-          <Navbar.Link hideIn={"xs"}> Cliente</Navbar.Link>
+          <Navbar.Link hideIn={"xs"} href={"/"}>
+            {" "}
+            Inicio
+          </Navbar.Link>
+          <Navbar.Link hideIn={"xs"} href={"/clients"}>
+            {" "}
+            Cliente
+          </Navbar.Link>
           <Navbar.Link hideIn={"xs"}> Analiticas</Navbar.Link>
         </Navbar.Content>
 
@@ -42,19 +51,23 @@ function Layout({ children }: any) {
           </Row>
         </Navbar.Brand>
 
-        <Navbar.Content>
-          <Button rounded size={"xs"} shadow>
-            <Link href={"/login"}>
-              <Text color="#fff">Login</Text>
-            </Link>
-          </Button>
+        {!user ? (
+          <Navbar.Content>
+            <Button rounded size={"xs"} shadow>
+              <Link href={"/login"}>
+                <Text color="#fff">Login</Text>
+              </Link>
+            </Button>
 
-          <Button rounded size={"xs"} color={"secondary"} shadow>
-            <Link href={"/registra"}>
-              <Text color="#fff">Sign Up</Text>
-            </Link>
-          </Button>
-        </Navbar.Content>
+            <Button rounded size={"xs"} color={"secondary"} shadow>
+              <Link href={"/registra"}>
+                <Text color="#fff">Sign Up</Text>
+              </Link>
+            </Button>
+          </Navbar.Content>
+        ) : (
+          <Button size={"xs"}>Logout</Button>
+        )}
       </Navbar>
 
       <Container justify="center" alignItems="center">
