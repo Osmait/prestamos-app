@@ -1,4 +1,4 @@
-import { Collapse } from "@nextui-org/react";
+import { Collapse, Text } from "@nextui-org/react";
 
 import { GetServerSideProps } from "next/types";
 import { getClients } from "./api/client";
@@ -13,15 +13,20 @@ type Props = {
 
 export default function clients({ clients }: Props) {
   return (
-    <Collapse.Group splitted className="blur-in">
-      {clients
-        ? clients.map((client: clientInterface) => (
-            <Collapse key={client.id} title={client.name} shadow>
-              <Loan clientId={client.id} />
-            </Collapse>
-          ))
-        : []}
-    </Collapse.Group>
+    <>
+      <Text h1 css={{ marginInline: "auto" }}>
+        Lista de Clientes
+      </Text>
+      <Collapse.Group splitted className="blur-in">
+        {clients
+          ? clients.map((client: clientInterface) => (
+              <Collapse key={client.id} title={client.name} shadow bordered>
+                <Loan clientId={client.id} />
+              </Collapse>
+            ))
+          : []}
+      </Collapse.Group>
+    </>
   );
 }
 

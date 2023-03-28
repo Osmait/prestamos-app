@@ -30,10 +30,10 @@ export default function Home() {
       >
         <Charts />
       </Row>
-
+      <Spacer y={1.6} />
       <Row>
         <Container xs>
-          <Text h1>Client</Text>
+          <Text h1>Prestamos de Hoy</Text>
           <Grid.Container justify="center" direction="column" gap={4}>
             <Card>
               <Card.Body>
