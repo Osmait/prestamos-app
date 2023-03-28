@@ -34,31 +34,35 @@ function Layout({ children }: Props) {
       </Head>
 
       <Navbar variant={"floating"} maxWidth={"fluid"} isBordered>
-        <Navbar.Content>
-          <User
-            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-            name={user?.name}
-            bordered
-            color="primary"
-          />
-          <Link href={"/"}>
-            <Text>Inicio</Text>
-          </Link>
-          <Link href={"/clients"}>
-            <Text>Cliente</Text>
-          </Link>
-        </Navbar.Content>
-        <Navbar.Brand>
-          <Row>
-            <Text hideIn={"md"} b h3>
-              Prestamos{" "}
-              <Text span color="#2529d8">
-                {" "}
-                SB{" "}
-              </Text>
-            </Text>
-          </Row>
-        </Navbar.Brand>
+        {user && (
+          <>
+            <Navbar.Content>
+              <User
+                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                name={user?.name}
+                bordered
+                color="primary"
+              />
+              <Link href={"/"}>
+                <Text>Inicio</Text>
+              </Link>
+              <Link href={"/clients"}>
+                <Text>Cliente</Text>
+              </Link>
+            </Navbar.Content>
+            <Navbar.Brand>
+              <Row>
+                <Text hideIn={"md"} b h3>
+                  Prestamos{" "}
+                  <Text span color="#2529d8">
+                    {" "}
+                    SB{" "}
+                  </Text>
+                </Text>
+              </Row>
+            </Navbar.Brand>
+          </>
+        )}
 
         {!user ? (
           <Navbar.Content>
