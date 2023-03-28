@@ -11,11 +11,17 @@ import {
   Col,
   Button,
   Grid,
+  Avatar,
+  User,
 } from "@nextui-org/react";
 import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
 
-function Layout({ children }: any) {
+type Props = {
+  children: JSX.Element;
+};
+
+function Layout({ children }: Props) {
   const { user } = useAuth();
 
   return (
@@ -26,22 +32,25 @@ function Layout({ children }: any) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar variant={"static"}>
-        <Navbar.Content>
-          <Navbar.Link hideIn={"xs"} href={"/"}>
-            {" "}
-            Inicio
-          </Navbar.Link>
-          <Navbar.Link hideIn={"xs"} href={"/clients"}>
-            {" "}
-            Cliente
-          </Navbar.Link>
-          <Navbar.Link hideIn={"xs"}> Analiticas</Navbar.Link>
-        </Navbar.Content>
 
+      <Navbar variant={"floating"} maxWidth={"fluid"} isBordered>
+        <Navbar.Content>
+          <User
+            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            name={user?.name}
+            bordered
+            color="primary"
+          />
+          <Link href={"/"}>
+            <Text>Inicio</Text>
+          </Link>
+          <Link href={"/clients"}>
+            <Text>Cliente</Text>
+          </Link>
+        </Navbar.Content>
         <Navbar.Brand>
           <Row>
-            <Text b h3>
+            <Text hideIn={"md"} b h3>
               Prestamos{" "}
               <Text span color="#2529d8">
                 {" "}

@@ -1,32 +1,39 @@
-import { Collapse, Text } from "@nextui-org/react";
+import { Collapse } from "@nextui-org/react";
 
 import { GetServerSideProps } from "next/types";
 import { getClients } from "./api/client";
 import cookieParser from "cookie-parser";
-import { ListLoan } from "@/components/ListLoan";
-import axios from "axios";
 
-export default function clients({ clients }: any) {
+import Loan from "@/components/Loan";
+import { clientInterface } from "@/interface/client";
+
+type Props = {
+  clients: clientInterface[];
+};
+
+export default function clients({ clients }: Props) {
   return (
-    <Collapse.Group>
-      {clients.map((client: any) => (
-        <Collapse key={client.id} title={client.name}>
-          <ListLoan clientID={client.id} />
-        </Collapse>
-      ))}
+    <Collapse.Group splitted className="blur-in">
+      {clients
+        ? clients.map((client: clientInterface) => (
+            <Collapse key={client.id} title={client.name} shadow>
+              <Loan clientId={client.id} />
+            </Collapse>
+          ))
+        : []}
     </Collapse.Group>
   );
 }
 
-// export const getServerSideProps: GetServerSideProps = async (context: any) => {
-//   // Parse cookies
-//   cookieParser(context.req, context.res);
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
+  // Parse cookies
+  cookieParser(context.req, context.res);
 
-//   const cookies = context.req.cookies;
+  const cookies = context.req.cookies;
 
-//   const clients = await getClients(cookies.token!);
+  const clients: clientInterface = await getClients(cookies.token!);
 
-//   return {
-//     props: { clients },
-//   };
-// };
+  return {
+    props: { clients },
+  };
+};
