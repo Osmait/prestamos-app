@@ -16,6 +16,9 @@ export const AuthProvider = ({ children }: Props) => {
 
   const singIn = async (data: any) => {
     const token = await loginApi(data);
+    if (!token) {
+      return;
+    }
 
     Cookie.set("token", token, { expires: 5 });
     axios.defaults.headers.Authorization = `Bearer ${token}`;
@@ -29,6 +32,9 @@ export const AuthProvider = ({ children }: Props) => {
 
   useEffect(() => {
     const token = Cookie.get("token");
+    if (!token) {
+      return;
+    }
     axios.defaults.headers.Authorization = `Bearer ${token}`;
     const getProfile = async () => {
       const { data: user } = await axios.get(
