@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 
 import Loan from "@/components/Loan";
 import { clientInterface } from "@/interface/client";
+import { ModalAdd } from "@/components/ModalAdd";
 
 type Props = {
   clients: clientInterface[];
@@ -17,11 +18,12 @@ export default function clients({ clients }: Props) {
       <Text h1 css={{ marginInline: "auto" }}>
         Lista de Clientes
       </Text>
+      <ModalAdd clients={clients} />
       <Collapse.Group splitted className="blur-in">
         {clients
           ? clients.map((client: clientInterface) => (
               <Collapse key={client.id} title={client.name} shadow bordered>
-                <Loan clientId={client.id} />
+                <Loan clientId={client.id!} />
               </Collapse>
             ))
           : []}

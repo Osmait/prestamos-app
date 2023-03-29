@@ -33,7 +33,7 @@ export default function Home() {
       <Spacer y={1.6} />
       <Row>
         <Container xs>
-          <Text h1>Prestamos de Hoy</Text>
+          <Text h2>Prestamos Por Cobrar a La Fecha</Text>
           <Grid.Container justify="center" direction="column" gap={4}>
             <Card>
               <Card.Body>

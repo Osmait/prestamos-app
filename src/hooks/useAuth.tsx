@@ -4,6 +4,7 @@ import { loginApi } from "@/pages/api/login";
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookie from "js-cookie";
+import { useRouter } from "next/router";
 
 type Props = {
   children: JSX.Element;
@@ -13,8 +14,14 @@ const AuthContext = createContext<any>(undefined);
 
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<userSingUp | null>(null);
+  const router = useRouter();
 
   const singIn = async (data: any) => {
+    const tokenSEt = Cookie.get("token");
+
+    if (tokenSEt) {
+      Cookie.remove("token");
+    }
     const token = await loginApi(data);
     if (!token) {
       return;
@@ -35,6 +42,7 @@ export const AuthProvider = ({ children }: Props) => {
     if (!token) {
       return;
     }
+
     axios.defaults.headers.Authorization = `Bearer ${token}`;
     const getProfile = async () => {
       const { data: user } = await axios.get(

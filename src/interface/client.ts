@@ -1,7 +1,7 @@
 export interface clientInterface {
-  id: number;
+  id?: number;
   name: String;
   lastName: String;
-  email: String;
-  phoneNumber: String;
+  email?: String;
+  phoneNumber?: String;
 }
