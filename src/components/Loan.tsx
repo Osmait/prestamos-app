@@ -6,13 +6,17 @@ import { Balance } from "./Balance";
 import { Collapse, Text } from "@nextui-org/react";
 import { Transaction } from "./Transaction";
 import { loanInterface } from "@/interface/loan";
+import useLoans from "@/hooks/usePrestamos";
+import { ModalAdd } from "./ModalAdd";
+import { TransactionFrom } from "./TransactionFrom";
 
 type Props = {
   clientId: number;
 };
 
 export default function Loan({ clientId }: Props) {
-  const [loans, setLoans] = useState<loanInterface[]>([]);
+  const { cambio } = useLoans();
+  const [loans, setLoans] = useState<loanInterface[]>();
 
   useEffect(() => {
     const getLoan = async () => {
@@ -25,7 +29,7 @@ export default function Loan({ clientId }: Props) {
       setLoans(listLoans);
     };
     getLoan();
-  }, [clientId]);
+  }, [clientId, cambio]);
 
   return (
     <Collapse.Group>
@@ -37,6 +41,7 @@ export default function Loan({ clientId }: Props) {
                 subtitle={`fecha: ${loan.createAt.split("T")[0]}`}
                 shadow
               >
+                <TransactionFrom loanId={loan.id} />
                 <Transaction loanId={loan.id} />
               </Collapse>
 

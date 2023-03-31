@@ -1,10 +1,8 @@
 import { userSingUp } from "@/interface/userSignip";
-import { loginApi } from "@/pages/api/login";
 
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookie from "js-cookie";
-import { useRouter } from "next/router";
 
 type Props = {
   children: JSX.Element;
@@ -14,50 +12,43 @@ const AuthContext = createContext<any>(undefined);
 
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<userSingUp | null>(null);
-  const router = useRouter();
-
-  const singIn = async (data: any) => {
-    const tokenSEt = Cookie.get("token");
-
-    if (tokenSEt) {
-      Cookie.remove("token");
-    }
-    const token = await loginApi(data);
-    if (!token) {
-      return;
-    }
-
-    Cookie.set("token", token, { expires: 5 });
-    axios.defaults.headers.Authorization = `Bearer ${token}`;
-
-    const { data: user } = await axios.get(
-      "http://localhost:8080/user/profile"
-    );
-
-    setUser(user);
-  };
+  const [cargando, setCargando] = useState<boolean>(false);
 
   useEffect(() => {
+    setCargando(true);
     const token = Cookie.get("token");
     if (!token) {
       return;
     }
 
-    axios.defaults.headers.Authorization = `Bearer ${token}`;
-    const getProfile = async () => {
-      const { data: user } = await axios.get(
-        "http://localhost:8080/user/profile"
-      );
-      setUser(user);
+    const config = {
+      headers: {
+        "content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     };
-    getProfile();
+
+    try {
+      const getProfile = async () => {
+        const { data: user } = await axios.get(
+          "http://localhost:8080/user/profile",
+          config
+        );
+        setUser(user);
+        setCargando(false);
+      };
+      getProfile();
+    } catch (error) {
+      console.log(" hay un fallo");
+    }
   }, []);
 
   return (
     <AuthContext.Provider
       value={{
-        singIn,
         user,
+        setUser,
+        cargando,
       }}
     >
       {children}

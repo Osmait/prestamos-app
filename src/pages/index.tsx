@@ -11,12 +11,20 @@ import {
   Spacer,
   Text,
 } from "@nextui-org/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Home() {
-  const { user } = useAuth();
-  if (user == null) {
-    return "No autorizado";
-  }
+  const { user, cargando } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user == null) {
+      if (cargando) {
+        router.push("/login");
+      }
+    }
+  }, [router, user, cargando]);
 
   return (
     <Container className="blur-in ">

@@ -3,3 +3,8 @@ export interface loanInterface {
   amount: number;
   createAt: string;
 }
+
+export interface loanIPostnterface {
+  amount: number;
+  clientId: number;
+}

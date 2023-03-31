@@ -1,11 +1,16 @@
 import useAuth from "@/hooks/useAuth";
+import useLoans from "@/hooks/usePrestamos";
 import { Text, Button, Container } from "@nextui-org/react";
 import { Input, Spacer } from "@nextui-org/react";
+import axios from "axios";
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useRef } from "react";
+import { loginApi } from "./api/login";
 
 export default function Login() {
-  const { singIn } = useAuth();
+  const { singIn, setUser, user } = useAuth();
+  const { cambio, setCambio } = useLoans();
   const router = useRouter();
   const email = useRef<HTMLInputElement>(null);
 
@@ -20,9 +25,37 @@ export default function Login() {
       email: email.current.value,
       password: password.current.value,
     };
-    singIn(data);
 
-    router.push("/");
+    const tokenSEt = Cookies.get("token");
+
+    if (tokenSEt) {
+      Cookies.remove("token");
+      setUser(null);
+    }
+    const token = await loginApi(data);
+    if (!token) {
+      return;
+    }
+    Cookies.set("token", token, { expires: 5 });
+
+    const config = {
+      headers: {
+        "content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const { data: user } = await axios.get(
+        "http://localhost:8080/user/profile",
+        config
+      );
+
+      setUser(user);
+      router.push("/");
+      setCambio(!cambio);
+    } catch (error) {
+      console.log("fallo");
+    }
   };
 
   return (

@@ -4,12 +4,14 @@ import Cookie from "js-cookie";
 
 import { Text } from "@nextui-org/react";
 import { balanceInterface } from "@/interface/balance";
+import useLoans from "@/hooks/usePrestamos";
 
 type Props = {
   loanId: number;
 };
 
 export const Balance = ({ loanId }: Props) => {
+  const { cambio } = useLoans();
   const [balances, setBalaces] = useState<balanceInterface[]>([]);
 
   useEffect(() => {
@@ -23,13 +25,13 @@ export const Balance = ({ loanId }: Props) => {
       setBalaces(balance);
     };
     getLoan();
-  }, [loanId]);
+  }, [loanId, cambio]);
 
   return (
     <div>
       {balances.map((balance: balanceInterface) => (
         <>
-          <Text h3>Balance: ${balance.amount.toFixed(2)}</Text>
+          <Text h3>Balance: ${balance.amount}</Text>
         </>
       ))}
     </div>

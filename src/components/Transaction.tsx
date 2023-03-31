@@ -4,12 +4,15 @@ import Cookie from "js-cookie";
 
 import { Row, Text } from "@nextui-org/react";
 import { transactionInterface } from "@/interface/transaction";
+import useLoans from "@/hooks/usePrestamos";
 
 type Props = {
   loanId: number;
 };
 
 export const Transaction = ({ loanId }: Props) => {
+  const { cambio } = useLoans();
+
   const [transactions, setTransaction] = useState<transactionInterface[]>([]);
 
   useEffect(() => {
@@ -23,7 +26,7 @@ export const Transaction = ({ loanId }: Props) => {
       setTransaction(listTransaction);
     };
     getLoan();
-  }, [loanId]);
+  }, [loanId, cambio]);
 
   return (
     <div>
@@ -32,7 +35,7 @@ export const Transaction = ({ loanId }: Props) => {
             <Row key={transaction.id} justify={"space-between"}>
               <Text>
                 {" "}
-                {index + 1} - ${transaction.amount.toFixed(2)}
+                {index + 1} - ${transaction.amount}
               </Text>
               <Text>{transaction.createAt.split("T")[0]}</Text>
             </Row>
