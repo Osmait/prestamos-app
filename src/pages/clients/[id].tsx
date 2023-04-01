@@ -6,12 +6,18 @@ import { Text } from "@nextui-org/react";
 import React from "react";
 import { getLoan } from "../api/loan";
 import { loanInterface } from "@/interface/loan";
+import useLoans from "@/hooks/usePrestamos";
+import Loading from "../../components/loading";
 
 type Props = {
   loans: loanInterface[];
 };
 
 export default function LoanPage({ loans }: Props) {
+  const { loading } = useLoans();
+
+  if (loading) return <Loading />;
+
   return loans.length > 0 ? (
     <Loan loans={loans} />
   ) : (

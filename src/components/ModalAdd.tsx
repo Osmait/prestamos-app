@@ -1,5 +1,6 @@
 import useLoans from "@/hooks/usePrestamos";
 import { clientInterface } from "@/interface/client";
+import Loading from "@/components/loading";
 
 import { Button, Dropdown, Modal } from "@nextui-org/react";
 import { useRouter } from "next/router";
@@ -15,6 +16,7 @@ type Props = {
 
 export const ModalAdd = ({ clients }: Props) => {
   const router = useRouter();
+  const { loading } = useLoans();
   const [type, setType] = useState("Client");
   const [visible, setVisible] = useState(true);
   const [client, setClient] = useState(null);
@@ -25,6 +27,8 @@ export const ModalAdd = ({ clients }: Props) => {
     setVisible(false);
     router.push("/clients");
   };
+
+  if (loading) return <Loading />;
 
   return (
     <div>

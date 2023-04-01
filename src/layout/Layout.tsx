@@ -19,6 +19,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import { Logout } from "@/components/Logout";
+import { Suspense } from "react";
+import Loading from "@/components/loading";
 
 type Props = {
   children: JSX.Element;

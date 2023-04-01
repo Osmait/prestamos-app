@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { Router } from "next/router";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type Props = {
   children: JSX.Element;
@@ -10,6 +11,18 @@ export const PrestamosProvider = ({ children }: Props) => {
   // const [clientsList, setClientsList] = useState<clientInterface[]>();
 
   const [cambio, setCambio] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    Router.events.on("routeChangeStart", () => setLoading(true));
+    Router.events.on("routeChangeComplete", () => setLoading(false));
+    Router.events.on("routeChangeError", () => setLoading(false));
+    return () => {
+      Router.events.off("routeChangeStart", () => setLoading(true));
+      Router.events.off("routeChangeComplete", () => setLoading(false));
+      Router.events.off("routeChangeError", () => setLoading(false));
+    };
+  }, []);
 
   // useEffect(() => {
   //   const getClient = async () => {
@@ -25,9 +38,9 @@ export const PrestamosProvider = ({ children }: Props) => {
   return (
     <PrestamosContext.Provider
       value={{
-        // clientsList,
         setCambio,
         cambio,
+        loading,
       }}
     >
       {children}

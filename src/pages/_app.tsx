@@ -1,10 +1,11 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
-import { NextUIProvider, createTheme } from "@nextui-org/react";
+import { NextUIProvider, createTheme, Loading } from "@nextui-org/react";
 import Layout from "@/layout/Layout";
 import { AuthProvider } from "@/hooks/useAuth";
 import { PrestamosProvider } from "@/hooks/usePrestamos";
+import { Suspense } from "react";
 
 const theme = createTheme({
   type: "dark", // it could be "light" or "dark"
@@ -44,7 +45,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <PrestamosProvider>
           <NextUIProvider theme={theme}>
             <Layout>
-              <Component {...pageProps} />
+              <Suspense fallback={<Loading />}>
+                <Component {...pageProps} />
+              </Suspense>
             </Layout>
           </NextUIProvider>
         </PrestamosProvider>

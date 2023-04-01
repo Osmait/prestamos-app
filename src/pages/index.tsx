@@ -1,5 +1,6 @@
 import { Charts } from "@/components/charts";
 import useAuth from "@/hooks/useAuth";
+import useLoans from "@/hooks/usePrestamos";
 
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,137 +9,148 @@ import axios from "axios";
 import cookieParser from "cookie-parser";
 import { GetServerSideProps } from "next";
 
+import Loading from "../components/loading";
+
 export default function Home({ user }: any) {
   const { setUser } = useAuth();
+  const { loading } = useLoans();
+
   setUser(user);
   if (user == null) {
     return;
   }
 
   return (
-    <Container className="blur-in ">
+    <>
       <Text h1 transform="capitalize" css={{ textAlign: "center" }}>
         Inicio
       </Text>
-      <Spacer y={1.6} />
-      <div className="home-chart">
-        <Charts />
-      </div>
 
-      <Spacer y={1.6} />
-      <Row>
-        <Container xs>
-          <Text h2>Prestamos Por Cobrar a La Fecha</Text>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Container className="blur-in ">
+          <Spacer y={1.6} />
+          <div className="home-chart">
+            <Charts />
+          </div>
 
-          <Grid.Container gap={2} className={"container_clients"}>
-            <Grid.Container direction="row" gap={2} className="blur-in">
-              <Grid xs={12} md>
-                <Card variant="bordered" isPressable isHoverable>
-                  <Card.Header>
-                    <FontAwesomeIcon icon={faUser} width={"20px"} />
-                  </Card.Header>
+          <Spacer y={1.6} />
+          <Row>
+            <Container xs>
+              <Text h2>Prestamos Por Cobrar a La Fecha</Text>
 
-                  <Card.Body css={{ justifyItems: "center" }}>
-                    <Text
-                      h3
-                      transform="capitalize"
-                      css={{ textAlign: "center" }}
-                    >
-                      Clien1
-                    </Text>
-                    <Text
-                      h3
-                      transform="capitalize"
-                      css={{ textAlign: "center" }}
-                    ></Text>
-                  </Card.Body>
-                </Card>
-              </Grid>
-            </Grid.Container>
+              <Grid.Container gap={2} className={"container_clients"}>
+                <Grid.Container direction="row" gap={2} className="blur-in">
+                  <Grid xs={12} md>
+                    <Card variant="bordered" isPressable isHoverable>
+                      <Card.Header>
+                        <FontAwesomeIcon icon={faUser} width={"20px"} />
+                      </Card.Header>
 
-            {/* client2 */}
+                      <Card.Body css={{ justifyItems: "center" }}>
+                        <Text
+                          h3
+                          transform="capitalize"
+                          css={{ textAlign: "center" }}
+                        >
+                          Clien1
+                        </Text>
+                        <Text
+                          h3
+                          transform="capitalize"
+                          css={{ textAlign: "center" }}
+                        ></Text>
+                      </Card.Body>
+                    </Card>
+                  </Grid>
+                </Grid.Container>
 
-            <Grid.Container direction="row" gap={2} className="blur-in">
-              <Grid xs={12} md>
-                <Card variant="bordered" isPressable isHoverable>
-                  <Card.Header>
-                    <FontAwesomeIcon icon={faUser} width={"20px"} />
-                  </Card.Header>
+                {/* client2 */}
 
-                  <Card.Body css={{ justifyItems: "center" }}>
-                    <Text
-                      h3
-                      transform="capitalize"
-                      css={{ textAlign: "center" }}
-                    >
-                      Clien1
-                    </Text>
-                    <Text
-                      h3
-                      transform="capitalize"
-                      css={{ textAlign: "center" }}
-                    ></Text>
-                  </Card.Body>
-                </Card>
-              </Grid>
-            </Grid.Container>
+                <Grid.Container direction="row" gap={2} className="blur-in">
+                  <Grid xs={12} md>
+                    <Card variant="bordered" isPressable isHoverable>
+                      <Card.Header>
+                        <FontAwesomeIcon icon={faUser} width={"20px"} />
+                      </Card.Header>
 
-            {/* Client 3 */}
+                      <Card.Body css={{ justifyItems: "center" }}>
+                        <Text
+                          h3
+                          transform="capitalize"
+                          css={{ textAlign: "center" }}
+                        >
+                          Clien1
+                        </Text>
+                        <Text
+                          h3
+                          transform="capitalize"
+                          css={{ textAlign: "center" }}
+                        ></Text>
+                      </Card.Body>
+                    </Card>
+                  </Grid>
+                </Grid.Container>
 
-            <Grid.Container direction="row" gap={2} className="blur-in">
-              <Grid xs={12} md>
-                <Card variant="bordered" isPressable isHoverable>
-                  <Card.Header>
-                    <FontAwesomeIcon icon={faUser} width={"20px"} />
-                  </Card.Header>
+                {/* Client 3 */}
 
-                  <Card.Body css={{ justifyItems: "center" }}>
-                    <Text
-                      h3
-                      transform="capitalize"
-                      css={{ textAlign: "center" }}
-                    >
-                      Clien1
-                    </Text>
-                    <Text
-                      h3
-                      transform="capitalize"
-                      css={{ textAlign: "center" }}
-                    ></Text>
-                  </Card.Body>
-                </Card>
-              </Grid>
-            </Grid.Container>
-            {/* Client 4 */}
+                <Grid.Container direction="row" gap={2} className="blur-in">
+                  <Grid xs={12} md>
+                    <Card variant="bordered" isPressable isHoverable>
+                      <Card.Header>
+                        <FontAwesomeIcon icon={faUser} width={"20px"} />
+                      </Card.Header>
 
-            <Grid.Container direction="row" gap={2} className="blur-in">
-              <Grid xs={12} md>
-                <Card variant="bordered" isPressable isHoverable>
-                  <Card.Header>
-                    <FontAwesomeIcon icon={faUser} width={"20px"} />
-                  </Card.Header>
+                      <Card.Body css={{ justifyItems: "center" }}>
+                        <Text
+                          h3
+                          transform="capitalize"
+                          css={{ textAlign: "center" }}
+                        >
+                          Clien1
+                        </Text>
+                        <Text
+                          h3
+                          transform="capitalize"
+                          css={{ textAlign: "center" }}
+                        ></Text>
+                      </Card.Body>
+                    </Card>
+                  </Grid>
+                </Grid.Container>
+                {/* Client 4 */}
 
-                  <Card.Body css={{ justifyItems: "center" }}>
-                    <Text
-                      h3
-                      transform="capitalize"
-                      css={{ textAlign: "center" }}
-                    >
-                      Clien1
-                    </Text>
-                    <Text
-                      h3
-                      transform="capitalize"
-                      css={{ textAlign: "center" }}
-                    ></Text>
-                  </Card.Body>
-                </Card>
-              </Grid>
-            </Grid.Container>
-          </Grid.Container>
+                <Grid.Container direction="row" gap={2} className="blur-in">
+                  <Grid xs={12} md>
+                    <Card variant="bordered" isPressable isHoverable>
+                      <Card.Header>
+                        <FontAwesomeIcon icon={faUser} width={"20px"} />
+                      </Card.Header>
+
+                      <Card.Body css={{ justifyItems: "center" }}>
+                        <Text
+                          h3
+                          transform="capitalize"
+                          css={{ textAlign: "center" }}
+                        >
+                          Clien1
+                        </Text>
+                        <Text
+                          h3
+                          transform="capitalize"
+                          css={{ textAlign: "center" }}
+                        ></Text>
+                      </Card.Body>
+                    </Card>
+                  </Grid>
+                </Grid.Container>
+              </Grid.Container>
+            </Container>
+          </Row>
         </Container>
-      </Row>
-    </Container>
+      )}
+    </>
   );
 }
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
