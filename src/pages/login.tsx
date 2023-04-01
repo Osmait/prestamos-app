@@ -9,8 +9,6 @@ import { useRef } from "react";
 import { loginApi } from "./api/login";
 
 export default function Login() {
-  const { singIn, setUser, user } = useAuth();
-  const { cambio, setCambio } = useLoans();
   const router = useRouter();
   const email = useRef<HTMLInputElement>(null);
 
@@ -30,7 +28,6 @@ export default function Login() {
 
     if (tokenSEt) {
       Cookies.remove("token");
-      setUser(null);
     }
     const token = await loginApi(data);
     if (!token) {
@@ -38,24 +35,7 @@ export default function Login() {
     }
     Cookies.set("token", token, { expires: 5 });
 
-    const config = {
-      headers: {
-        "content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    try {
-      const { data: user } = await axios.get(
-        "http://localhost:8080/user/profile",
-        config
-      );
-
-      setUser(user);
-      router.push("/");
-      setCambio(!cambio);
-    } catch (error) {
-      console.log("fallo");
-    }
+    router.push("/");
   };
 
   return (

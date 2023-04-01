@@ -8,6 +8,7 @@ import { getClients } from "../api/client";
 import { GetServerSideProps } from "next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { redirect } from "next/dist/server/api-utils";
 
 type Props = {
   clients: clientInterface[];
@@ -74,10 +75,17 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   cookieParser(context.req, context.res);
 
   const cookies = context.req.cookies;
-
-  const clients = await getClients(cookies.token!);
-
-  return {
-    props: { clients },
-  };
+  try {
+    const clients = await getClients(cookies.token!);
+    return {
+      props: { clients },
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
 };

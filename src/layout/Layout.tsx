@@ -1,5 +1,3 @@
-"use client";
-import React, { use } from "react";
 import Head from "next/head";
 import {
   Container,
@@ -8,10 +6,7 @@ import {
   Text,
   Navbar,
   Spacer,
-  Col,
   Button,
-  Grid,
-  Avatar,
   User,
 } from "@nextui-org/react";
 import Link from "next/link";
@@ -23,6 +18,7 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
+import { Logout } from "@/components/Logout";
 
 type Props = {
   children: JSX.Element;
@@ -31,7 +27,6 @@ type Props = {
 function Layout({ children }: Props) {
   const { user } = useAuth();
   const router = useRouter();
-  console.log(router.pathname);
 
   return (
     <>
@@ -76,7 +71,11 @@ function Layout({ children }: Props) {
                     width={"20px"}
                     color={router.pathname == "/clients" ? "#0F9FE7" : ""}
                   />
-                  <Text span hideIn={"xs"} color={router.pathname == "/clients" ? "#0F9FE7" : ""} >
+                  <Text
+                    span
+                    hideIn={"xs"}
+                    color={router.pathname == "/clients" ? "#0F9FE7" : ""}
+                  >
                     Cliente
                   </Text>
                 </Text>
@@ -111,7 +110,7 @@ function Layout({ children }: Props) {
             </Button>
           </Navbar.Content>
         ) : (
-          <Button size={"xs"}>Logout</Button>
+          <Logout />
         )}
       </Navbar>
 

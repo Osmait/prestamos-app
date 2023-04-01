@@ -1,25 +1,25 @@
 import { Charts } from "@/components/charts";
 import useAuth from "@/hooks/useAuth";
+
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card, Container, Grid, Row, Spacer, Text } from "@nextui-org/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import axios from "axios";
+import cookieParser from "cookie-parser";
+import { GetServerSideProps } from "next";
 
-export default function Home() {
-  const { user, cargando } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user == null) {
-      if (cargando) {
-        router.push("/login");
-      }
-    }
-  }, [router, user, cargando]);
+export default function Home({ user }: any) {
+  const { setUser } = useAuth();
+  setUser(user);
+  if (user == null) {
+    return;
+  }
 
   return (
     <Container className="blur-in ">
+      <Text h1 transform="capitalize" css={{ textAlign: "center" }}>
+        Inicio
+      </Text>
       <Spacer y={1.6} />
       <div className="home-chart">
         <Charts />
@@ -141,3 +141,32 @@ export default function Home() {
     </Container>
   );
 }
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
+  // Parse cookies
+  cookieParser(context.req, context.res);
+
+  const { token } = context.req.cookies;
+
+  const config = {
+    headers: {
+      "content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const { data: user } = await axios.get(
+      "http://localhost:8080/user/profile",
+      config
+    );
+    return {
+      props: { user },
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+};
