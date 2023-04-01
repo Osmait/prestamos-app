@@ -22,6 +22,7 @@ import {
   faMoneyBillTransfer,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/router";
 
 type Props = {
   children: JSX.Element;
@@ -29,6 +30,8 @@ type Props = {
 
 function Layout({ children }: Props) {
   const { user } = useAuth();
+  const router = useRouter();
+  console.log(router.pathname);
 
   return (
     <>
@@ -51,8 +54,16 @@ function Layout({ children }: Props) {
               />
               <Link href={"/"}>
                 <Text>
-                  <FontAwesomeIcon icon={faHome} width={"20px"} />
-                  <Text span hideIn={"xs"}>
+                  <FontAwesomeIcon
+                    icon={faHome}
+                    width={"20px"}
+                    color={router.pathname == "/" ? "#0F9FE7" : ""}
+                  />
+                  <Text
+                    span
+                    hideIn={"xs"}
+                    color={router.pathname == "/" ? "#0F9FE7" : ""}
+                  >
                     {" "}
                     Inicio
                   </Text>
@@ -60,8 +71,12 @@ function Layout({ children }: Props) {
               </Link>
               <Link href={"/clients"}>
                 <Text>
-                  <FontAwesomeIcon icon={faUsers} width={"20px"} />
-                  <Text span hideIn={"xs"}>
+                  <FontAwesomeIcon
+                    icon={faUsers}
+                    width={"20px"}
+                    color={router.pathname == "/clients" ? "#0F9FE7" : ""}
+                  />
+                  <Text span hideIn={"xs"} color={router.pathname == "/clients" ? "#0F9FE7" : ""} >
                     Cliente
                   </Text>
                 </Text>
