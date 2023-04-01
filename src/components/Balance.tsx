@@ -5,6 +5,7 @@ import Cookie from "js-cookie";
 import { Text } from "@nextui-org/react";
 import { balanceInterface } from "@/interface/balance";
 import useLoans from "@/hooks/usePrestamos";
+import Loading from "./loading";
 
 type Props = {
   loanId: number;
@@ -13,9 +14,11 @@ type Props = {
 export const Balance = ({ loanId }: Props) => {
   const { cambio } = useLoans();
   const [balances, setBalaces] = useState<balanceInterface[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getLoan = async () => {
+      setLoading(true);
       const token = Cookie.get("token");
       axios.defaults.headers.Authorization = `Bearer ${token}`;
       const { data: balance } = await axios.get(
@@ -23,9 +26,12 @@ export const Balance = ({ loanId }: Props) => {
       );
 
       setBalaces(balance);
+      setLoading(false);
     };
     getLoan();
   }, [loanId, cambio]);
+
+  if (loading) return <Loading />;
 
   return (
     <div>
