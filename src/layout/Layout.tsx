@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { use } from "react";
 import Head from "next/head";
 import {
   Container,
@@ -16,6 +16,12 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faMoneyBillTransfer,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   children: JSX.Element;
@@ -38,16 +44,27 @@ function Layout({ children }: Props) {
           <>
             <Navbar.Content>
               <User
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                src={`https://ui-avatars.com/api/?name=${user.name}+${user.lastName}`}
                 name={user?.name}
                 bordered
                 color="primary"
               />
               <Link href={"/"}>
-                <Text>Inicio</Text>
+                <Text>
+                  <FontAwesomeIcon icon={faHome} width={"20px"} />
+                  <Text span hideIn={"xs"}>
+                    {" "}
+                    Inicio
+                  </Text>
+                </Text>
               </Link>
               <Link href={"/clients"}>
-                <Text>Cliente</Text>
+                <Text>
+                  <FontAwesomeIcon icon={faUsers} width={"20px"} />
+                  <Text span hideIn={"xs"}>
+                    Cliente
+                  </Text>
+                </Text>
               </Link>
             </Navbar.Content>
             <Navbar.Brand>

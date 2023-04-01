@@ -1,56 +1,55 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Cookie from "js-cookie";
 import { Balance } from "./Balance";
 
-import { Collapse, Text } from "@nextui-org/react";
+import { Card, Collapse, Grid, Spacer, Text } from "@nextui-org/react";
 import { Transaction } from "./Transaction";
 import { loanInterface } from "@/interface/loan";
-import useLoans from "@/hooks/usePrestamos";
-import { ModalAdd } from "./ModalAdd";
+
 import { TransactionFrom } from "./TransactionFrom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoneyBillTransfer } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
-  clientId: number;
+  loans: loanInterface[];
 };
 
-export default function Loan({ clientId }: Props) {
-  const { cambio } = useLoans();
-  const [loans, setLoans] = useState<loanInterface[]>();
-
-  useEffect(() => {
-    const getLoan = async () => {
-      const token = Cookie.get("token");
-      axios.defaults.headers.Authorization = `Bearer ${token}`;
-      const { data: listLoans } = await axios.get(
-        `http://localhost:8080/loan/${clientId}`
-      );
-
-      setLoans(listLoans);
-    };
-    getLoan();
-  }, [clientId, cambio]);
-
+export default function Loan({ loans }: Props) {
   return (
-    <Collapse.Group>
+    <Grid.Container gap={2} className={"container_clients"}>
       {loans
         ? loans.map((loan: loanInterface) => (
             <>
-              <Collapse
-                title={`Prestamo: ${loan.amount.toFixed(2)}`}
-                subtitle={`fecha: ${loan.createAt.split("T")[0]}`}
-                shadow
-              >
-                <TransactionFrom loanId={loan.id} />
-                <Transaction loanId={loan.id} />
-              </Collapse>
-
-              <Text>
-                <Balance loanId={loan.id} />
-              </Text>
+              <Grid.Container direction="row" gap={2} className="blur-in">
+                <Grid xs={12} md>
+                  <Card variant="bordered" isPressable isHoverable>
+                    <Card.Header css={{ justifyContent: "space-between" }}>
+                      <Text h3>
+                        <Text span css={{ margin: "$5" }}>
+                          <FontAwesomeIcon
+                            icon={faMoneyBillTransfer}
+                            width={"30px"}
+                          />
+                        </Text>
+                        Prestamos: ${loan.amount.toFixed(2)}
+                      </Text>
+                      <Text span>{loan.createAt.split("T")[0]}</Text>
+                    </Card.Header>
+                    <Spacer y={0.5} />
+                    <TransactionFrom loanId={loan.id} />
+                    <Collapse.Group>
+                      <Collapse title={" Transacciones"} contentLeft>
+                        <Transaction loanId={loan.id} />
+                      </Collapse>
+                    </Collapse.Group>
+                    <Spacer y={1.6} />
+                    <Text css={{ textAlign: "center" }}>
+                      <Balance loanId={loan.id} />
+                    </Text>
+                  </Card>
+                </Grid>
+              </Grid.Container>
             </>
           ))
         : []}
-    </Collapse.Group>
+    </Grid.Container>
   );
 }

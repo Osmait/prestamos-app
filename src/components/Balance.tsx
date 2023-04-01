@@ -29,11 +29,15 @@ export const Balance = ({ loanId }: Props) => {
 
   return (
     <div>
-      {balances.map((balance: balanceInterface) => (
-        <>
-          <Text h3>Balance: ${balance.amount}</Text>
-        </>
-      ))}
+      {balances.length !== 0 ? (
+        balances.map((balance: balanceInterface) => (
+          <>
+            <Text h3>Balance: ${balance.amount}</Text>
+          </>
+        ))
+      ) : (
+        <Text h3> No hay pagos Realizados..</Text>
+      )}
     </div>
   );
 };

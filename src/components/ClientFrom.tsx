@@ -3,9 +3,11 @@ import { clientInterface } from "@/interface/client";
 import { postClients } from "@/pages/api/client";
 import { Button, Input, Modal, Spacer } from "@nextui-org/react";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import React, { useRef } from "react";
 
 export const ClientFrom = ({ closeHandler }: any) => {
+  const router = useRouter();
   const { setCambio, cambio } = useLoans();
   const clienFrom = useRef<HTMLFormElement>(null);
 
@@ -35,6 +37,7 @@ export const ClientFrom = ({ closeHandler }: any) => {
     }
     postClients(token, data);
     setCambio(!cambio);
+    router.push("/clients");
   };
 
   return (
@@ -87,7 +90,7 @@ export const ClientFrom = ({ closeHandler }: any) => {
         <Button auto flat color="error" onPress={closeHandler}>
           Close
         </Button>
-        <Button auto onPress={closeHandler} type={"submit"}>
+        <Button auto type={"submit"}>
           Add
         </Button>
       </Modal.Footer>

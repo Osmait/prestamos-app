@@ -1,9 +1,4 @@
-import { clientInterface } from "@/interface/client";
-import { loanInterface } from "@/interface/loan";
-import { getClients } from "@/pages/api/client";
-
-import Cookies from "js-cookie";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 type Props = {
   children: JSX.Element;
@@ -12,25 +7,25 @@ type Props = {
 const PrestamosContext = createContext<any>(undefined);
 
 export const PrestamosProvider = ({ children }: Props) => {
-  const [clientsList, setClientsList] = useState<clientInterface[]>();
+  // const [clientsList, setClientsList] = useState<clientInterface[]>();
 
   const [cambio, setCambio] = useState<boolean>(false);
 
-  useEffect(() => {
-    const getClient = async () => {
-      const token = Cookies.get("token");
+  // useEffect(() => {
+  //   const getClient = async () => {
+  //     const token = Cookies.get("token");
 
-      const clients: clientInterface[] = await getClients(token!);
+  //     const clients: clientInterface[] = await getClients(token!);
 
-      setClientsList(clients);
-    };
-    getClient();
-  }, [cambio]);
+  //     setClientsList(clients);
+  //   };
+  //   getClient();
+  // }, [cambio]);
 
   return (
     <PrestamosContext.Provider
       value={{
-        clientsList,
+        // clientsList,
         setCambio,
         cambio,
       }}

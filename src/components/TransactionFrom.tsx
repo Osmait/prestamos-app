@@ -1,12 +1,12 @@
 import useLoans from "@/hooks/usePrestamos";
-import { Button, Input, Modal } from "@nextui-org/react";
+import { Button, Input, Modal, Spacer, Text } from "@nextui-org/react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useRef, useState } from "react";
 
 export const TransactionFrom = ({ loanId }: any) => {
   const { cambio, setCambio } = useLoans();
-
+  const [visible, setVisible] = useState(false);
   const [amount, setAmount] = useState<number>();
   const transactionFrom = useRef<HTMLFormElement>(null);
 
@@ -30,26 +30,55 @@ export const TransactionFrom = ({ loanId }: any) => {
     setCambio(!cambio);
     setAmount(0);
   };
+  const handler = () => setVisible(true);
+
+  const closeHandler = () => {
+    setVisible(false);
+  };
 
   return (
-    <form ref={transactionFrom} onSubmit={handleSumittransaction}>
-      <Modal.Body>
-        <Input
-          name="amount"
-          clearable
-          bordered
-          fullWidth
-          color="primary"
-          size="lg"
-          placeholder="Monto"
-          onChange={(e) => setAmount(parseFloat(e.target.value))}
-        />
-      </Modal.Body>
-      <Modal.Footer>
-        <Button auto type={"submit"}>
-          Add
-        </Button>
-      </Modal.Footer>
-    </form>
+    <div>
+      <Button
+        rounded
+        auto
+        onPress={handler}
+        size={"md"}
+        ghost
+        animated
+        css={{ margin: "$10" }}
+      >
+        Agregar Pago
+      </Button>
+
+      <Modal
+        closeButton
+        aria-labelledby="modal-title"
+        open={visible}
+        onClose={closeHandler}
+      >
+        <Modal.Header justify="space-between">
+          <Text h2>Cuota</Text>
+        </Modal.Header>
+        <form ref={transactionFrom} onSubmit={handleSumittransaction}>
+          <Modal.Body>
+            <Input
+              name="amount"
+              clearable
+              bordered
+              fullWidth
+              color="primary"
+              size="lg"
+              placeholder="Monto"
+              onChange={(e) => setAmount(parseFloat(e.target.value))}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button auto onPress={closeHandler} type={"submit"}>
+              Add
+            </Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
+    </div>
   );
 };
