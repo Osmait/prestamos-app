@@ -1,8 +1,6 @@
-import useAuth from "@/hooks/useAuth";
-import useLoans from "@/hooks/usePrestamos";
 import { Text, Button, Container } from "@nextui-org/react";
 import { Input, Spacer } from "@nextui-org/react";
-import axios from "axios";
+
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useRef } from "react";

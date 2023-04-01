@@ -25,7 +25,7 @@ export default function clients({ clients }: Props) {
       </Row>
 
       <Link href={"clients/add"}>
-        <Card variant="bordered">
+        <Card variant="bordered" isPressable isHoverable>
           <Text h3 transform="capitalize" css={{ textAlign: "center" }}>
             Agregar
           </Text>
