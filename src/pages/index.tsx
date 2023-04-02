@@ -16,6 +16,7 @@ type Props = {
   user: any;
   clients: clientInterface[];
 };
+const API = process.env.NEXT_PUBLIC_API;
 
 export default function Home({ user, clients }: Props) {
   const { setUser } = useAuth();
@@ -105,15 +106,9 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     },
   };
   try {
-    const { data: user } = await axios.get(
-      "http://localhost:8080/user/profile",
-      config
-    );
+    const { data: user } = await axios.get(`${API}/user/profile`, config);
 
-    const { data: clients } = await axios.get(
-      "http://localhost:8080/loan/payment/1",
-      config
-    );
+    const { data: clients } = await axios.get(`${API}/loan/payment/1`, config);
 
     return {
       props: { user, clients },

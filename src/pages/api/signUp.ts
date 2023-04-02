@@ -1,7 +1,8 @@
 import { userSingUp } from "@/interface/userSignip";
+const API = process.env.NEXT_PUBLIC_API;
 
 export const signUp = async (body: userSingUp) => {
-  const response = await fetch(`http://localhost:8080/user`, {
+  const response = await fetch(`${API}/user`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

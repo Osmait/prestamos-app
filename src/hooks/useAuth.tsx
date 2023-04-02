@@ -7,7 +7,7 @@ import Cookie from "js-cookie";
 type Props = {
   children: JSX.Element;
 };
-
+const API = process.env.NEXT_PUBLIC_API;
 const AuthContext = createContext<any>(undefined);
 
 export const AuthProvider = ({ children }: Props) => {
@@ -28,10 +28,7 @@ export const AuthProvider = ({ children }: Props) => {
 
     try {
       const getProfile = async () => {
-        const { data: user } = await axios.get(
-          "http://localhost:8080/user/profile",
-          config
-        );
+        const { data: user } = await axios.get(`${API}/user/profile`, config);
         setUser(user);
       };
       getProfile();

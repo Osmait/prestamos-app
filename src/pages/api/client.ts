@@ -1,6 +1,8 @@
 import { clientInterface } from "@/interface/client";
 import axios from "axios";
 
+const API = process.env.NEXT_PUBLIC_API;
+
 export const getClients = async (token: String) => {
   const config = {
     headers: {
@@ -9,20 +11,14 @@ export const getClients = async (token: String) => {
     },
   };
 
-  const { data: clients } = await axios.get(
-    "http://localhost:8080/client",
-    config
-  );
+  const { data: clients } = await axios.get(`${API}/client`, config);
 
   return clients;
 };
 
 export const postClients = async (token: String, body: clientInterface) => {
   axios.defaults.headers.Authorization = `Bearer ${token}`;
-  const { data: clients } = await axios.post(
-    "http://localhost:8080/client",
-    body
-  );
+  const { data: clients } = await axios.post(`${API}/client`, body);
 
   console.log(clients);
 };

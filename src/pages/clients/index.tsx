@@ -43,7 +43,12 @@ export default function Clients({ clients }: Props) {
             {clients
               ? clients.map((client: clientInterface) => (
                   <>
-                    <Grid.Container direction="row" gap={2} className="blur-in">
+                    <Grid.Container
+                      direction="row"
+                      gap={2}
+                      className="blur-in"
+                      key={client.id}
+                    >
                       <Grid xs={12} md>
                         <Card variant="bordered" isPressable isHoverable>
                           <Card.Header>

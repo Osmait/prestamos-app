@@ -4,6 +4,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useRef, useState } from "react";
 
+const API = process.env.NEXT_PUBLIC_API;
+
 export const TransactionFrom = ({ loanId }: any) => {
   const { cambio, setCambio } = useLoans();
   const [visible, setVisible] = useState(false);
@@ -26,7 +28,7 @@ export const TransactionFrom = ({ loanId }: any) => {
     }
 
     axios.defaults.headers.Authorization = `Bearer ${token}`;
-    await axios.post(`http://localhost:8080/transaction`, transaction);
+    await axios.post(`${API}/transaction`, transaction);
     setCambio(!cambio);
     setAmount(0);
   };

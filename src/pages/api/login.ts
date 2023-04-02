@@ -1,10 +1,11 @@
 import axios from "axios";
+const API = process.env.NEXT_PUBLIC_API;
 
 export const loginApi = async (body: any) => {
   try {
     const {
       data: { token },
-    } = await axios.post("http://localhost:8080/login", body);
+    } = await axios.post(`${API}/login`, body);
 
     return token;
   } catch (error) {

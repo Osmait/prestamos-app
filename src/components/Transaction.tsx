@@ -10,6 +10,7 @@ import Loading from "@/components/loading";
 type Props = {
   loanId: number;
 };
+const API = process.env.NEXT_PUBLIC_API;
 
 export const Transaction = ({ loanId }: Props) => {
   const { cambio } = useLoans();
@@ -23,7 +24,7 @@ export const Transaction = ({ loanId }: Props) => {
       const token = Cookie.get("token");
       axios.defaults.headers.Authorization = `Bearer ${token}`;
       const { data: listTransaction } = await axios.get(
-        `http://localhost:8080/transaction/${loanId}`
+        `${API}/transaction/${loanId}`
       );
 
       setTransaction(listTransaction);
