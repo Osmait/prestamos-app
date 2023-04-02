@@ -8,10 +8,10 @@ import React, { useRef } from "react";
 
 export const ClientFrom = ({ closeHandler }: any) => {
   const router = useRouter();
-  const { setCambio, cambio } = useLoans();
+
   const clienFrom = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!clienFrom.current) {
@@ -35,8 +35,8 @@ export const ClientFrom = ({ closeHandler }: any) => {
     if (!token) {
       return;
     }
-    postClients(token, data);
-    setCambio(!cambio);
+    await postClients(token, data);
+
     router.push("/clients");
   };
 

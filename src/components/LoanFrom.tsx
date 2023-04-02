@@ -49,7 +49,7 @@ export const LoanFrom = ({ closeHandler, client }: any) => {
           onChange={(e) => setAmount(parseFloat(e.target.value))}
         />
         <Input
-          label="Fecha"
+          label="Fecha de Pago"
           type={"date"}
           name="Date"
           clearable

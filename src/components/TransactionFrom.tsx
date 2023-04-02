@@ -62,6 +62,7 @@ export const TransactionFrom = ({ loanId }: any) => {
         <form ref={transactionFrom} onSubmit={handleSumittransaction}>
           <Modal.Body>
             <Input
+              label="monto"
               name="amount"
               clearable
               bordered

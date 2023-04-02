@@ -1,3 +1,5 @@
+import { transactionInterface } from "@/interface/transaction";
+import { getAllTransaction } from "@/pages/api/transactions";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,7 +10,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar, Line } from "react-chartjs-2";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -49,12 +53,25 @@ const labels = [
 ];
 
 export function Charts() {
-  const mesesIncome = [0, 0, 0, 0, , 0, 0, 0, 0, 0, 0, 0];
-  const mesesBill = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const [dataAnual, setDataAnual] = useState<transactionInterface[]>([]);
+  const mesesIncome = Array(12).fill(0);
 
-  for (let i = 0; i <= 12; i++) {
-    mesesBill[i] = i * 1000;
-    mesesIncome[i] = i * 2000;
+  useEffect(() => {
+    const getTransaction = async () => {
+      const token = Cookies.get("token");
+      const data = await getAllTransaction(token!);
+
+      setDataAnual(data);
+    };
+    getTransaction();
+  }, []);
+
+  if (dataAnual) {
+    for (let v of dataAnual) {
+      let index = parseInt(v.createAt.split("-")[1]);
+
+      mesesIncome[index - 1] += v.amount!;
+    }
   }
 
   const data = {
