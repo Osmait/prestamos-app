@@ -13,6 +13,7 @@ export const LoanFrom = ({ closeHandler, client }: any) => {
   const handleSumitLoan = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!amount) return;
+    console.log("aquiii");
 
     const data: loanIPostnterface = {
       amount,
@@ -46,7 +47,7 @@ export const LoanFrom = ({ closeHandler, client }: any) => {
         <Button auto flat color="error" onPress={closeHandler}>
           Close
         </Button>
-        <Button auto onPress={closeHandler} type={"submit"}>
+        <Button auto onPress={closeHandler} type="submit">
           Add
         </Button>
       </Modal.Footer>
