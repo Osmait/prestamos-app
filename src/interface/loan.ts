@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export interface loanInterface {
   id: number;
   amount: number;
@@ -6,5 +8,6 @@ export interface loanInterface {
 
 export interface loanIPostnterface {
   amount: number;
+  paymentDate: string;
   clientId: number;
 }

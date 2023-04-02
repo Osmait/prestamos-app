@@ -44,6 +44,7 @@ export const ClientFrom = ({ closeHandler }: any) => {
     <form ref={clienFrom} onSubmit={handleSubmit}>
       <Modal.Body>
         <Input
+          label="Nombre"
           name="name"
           clearable
           bordered
@@ -54,6 +55,7 @@ export const ClientFrom = ({ closeHandler }: any) => {
         />
         <Spacer y={1} />
         <Input
+          label="Apellido"
           name="lastName"
           clearable
           bordered
@@ -65,6 +67,7 @@ export const ClientFrom = ({ closeHandler }: any) => {
         <Spacer y={1} />
 
         <Input
+          label="Email"
           name="email"
           clearable
           bordered
@@ -75,6 +78,7 @@ export const ClientFrom = ({ closeHandler }: any) => {
         />
         <Spacer y={1} />
         <Input
+          label="Telefono"
           name="phoneNumber"
           clearable
           bordered

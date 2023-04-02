@@ -18,7 +18,12 @@ export default function Loan({ loans }: Props) {
       {loans
         ? loans.map((loan: loanInterface) => (
             <>
-              <Grid.Container direction="row" gap={2} className="blur-in">
+              <Grid.Container
+                direction="row"
+                gap={2}
+                className="blur-in"
+                key={loan.id}
+              >
                 <Grid xs={12} md>
                   <Card variant="bordered" isPressable isHoverable>
                     <Card.Header css={{ justifyContent: "space-between" }}>

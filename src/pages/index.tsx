@@ -50,45 +50,40 @@ export default function Home({ user, clients }: Props) {
               <Text h2>Proximos Cobros</Text>
 
               <Grid.Container gap={2} className={"container_clients"}>
-                {clients &&
-                  clients.map((clients: any) => (
-                    <Grid.Container
-                      direction="row"
-                      gap={2}
-                      className="blur-in"
-                      key={clients.id}
-                    >
-                      <Grid xs={12} md>
-                        <Card variant="bordered" isPressable isHoverable>
-                          <Card.Header
-                            css={{ justifyContent: "space-between" }}
-                          >
-                            <FontAwesomeIcon icon={faUser} width={"20px"} />
-                            <Text span>
-                              {clients.paymentDate.split("T")[0]}
-                            </Text>
-                          </Card.Header>
+                {clients.map((clients: any) => (
+                  <Grid.Container
+                    direction="row"
+                    gap={2}
+                    className="blur-in"
+                    key={clients.id}
+                  >
+                    <Grid xs={12} md>
+                      <Card variant="bordered" isPressable isHoverable>
+                        <Card.Header css={{ justifyContent: "space-between" }}>
+                          <FontAwesomeIcon icon={faUser} width={"20px"} />
+                          <Text span>{clients.paymentDate.split("T")[0]}</Text>
+                        </Card.Header>
 
-                          <Card.Body css={{ justifyItems: "center" }}>
-                            <Text
-                              h3
-                              transform="capitalize"
-                              css={{ textAlign: "center" }}
-                            >
-                              {clients.client.name}
-                            </Text>
-                            <Text
-                              h3
-                              transform="capitalize"
-                              css={{ textAlign: "center" }}
-                            >
-                              $ {clients.amount}
-                            </Text>
-                          </Card.Body>
-                        </Card>
-                      </Grid>
-                    </Grid.Container>
-                  ))}
+                        <Card.Body css={{ justifyItems: "center" }}>
+                          <Text
+                            h3
+                            transform="capitalize"
+                            css={{ textAlign: "center" }}
+                          >
+                            {clients.client.name}
+                          </Text>
+                          <Text
+                            h3
+                            transform="capitalize"
+                            css={{ textAlign: "center" }}
+                          >
+                            $ {clients.amount}
+                          </Text>
+                        </Card.Body>
+                      </Card>
+                    </Grid>
+                  </Grid.Container>
+                ))}
               </Grid.Container>
             </Container>
           </Row>
@@ -115,13 +110,13 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
       config
     );
 
-    // const { data: clients } = await axios.get(
-    //   "http://localhost:8080/loan/payment/1",
-    //   config
-    // );
+    const { data: clients } = await axios.get(
+      "http://localhost:8080/loan/payment/1",
+      config
+    );
 
     return {
-      props: { user },
+      props: { user, clients },
     };
   } catch (error) {
     return {
