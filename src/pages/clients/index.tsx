@@ -8,7 +8,7 @@ import { getClients } from "../api/client";
 import { GetServerSideProps } from "next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
-import { redirect } from "next/dist/server/api-utils";
+
 import useLoans from "@/hooks/usePrestamos";
 import Loading from "../../components/loading";
 

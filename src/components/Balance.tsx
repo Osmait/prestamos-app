@@ -40,7 +40,11 @@ export const Balance = ({ loanId }: Props) => {
       {balances.length !== 0 ? (
         balances.map((balance: balanceInterface) => (
           <>
-            <Text h3 color={balance.amount < 0 ? "success" : "error"}>
+            <Text
+              key={balance.id}
+              h3
+              color={balance.amount < 0 ? "success" : "error"}
+            >
               {balance.amount < 0
                 ? `Ganancia:  + $ ${Math.abs(balance.amount)}`
                 : ` Balance: $ ${balance.amount}`}

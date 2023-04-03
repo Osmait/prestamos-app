@@ -39,7 +39,7 @@ function Layout({ children }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar variant={"floating"} maxWidth={"fluid"} isBordered>
+      <Navbar variant={"sticky"} maxWidth={"fluid"} isBordered>
         {user && (
           <>
             <Navbar.Content>

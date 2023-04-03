@@ -28,7 +28,7 @@ export default function Home({ user, clients }: Props) {
   }
 
   return (
-    <>
+    <div className="blur-in ">
       <Text h1 transform="capitalize" css={{ textAlign: "center" }}>
         <Text span css={{ margin: "$10" }}>
           <FontAwesomeIcon icon={faHome} width={"30px"} />
@@ -39,66 +39,69 @@ export default function Home({ user, clients }: Props) {
       {loading ? (
         <Loading />
       ) : (
-        <Container className="blur-in ">
-          <Spacer y={1.6} />
+        <>
           <div className="home-chart">
             <Charts />
           </div>
 
-          <Spacer y={1.6} />
-          <Row>
-            <Container xs>
-              <Text h2>Proximos Cobros</Text>
+          <Container>
+            <Spacer y={1.6} />
 
-              <Grid.Container gap={2} className={"container_clients"}>
-                {clients ? (
-                  clients.map((clients: any) => (
-                    <Grid.Container
-                      direction="row"
-                      gap={2}
-                      className="blur-in"
-                      key={clients.id}
-                    >
-                      <Grid xs={12} md>
-                        <Card variant="bordered" isPressable isHoverable>
-                          <Card.Header
-                            css={{ justifyContent: "space-between" }}
-                          >
-                            <FontAwesomeIcon icon={faUser} width={"20px"} />
-                            <Text span>
-                              {clients.paymentDate.split("T")[0]}
-                            </Text>
-                          </Card.Header>
+            <Spacer y={1.6} />
+            <Row>
+              <Container xs>
+                <Text h2>Proximos Cobros</Text>
 
-                          <Card.Body css={{ justifyItems: "center" }}>
-                            <Text
-                              h3
-                              transform="capitalize"
-                              css={{ textAlign: "center" }}
+                <Grid.Container gap={2} className={"container_clients"}>
+                  {clients ? (
+                    clients.map((clients: any) => (
+                      <Grid.Container
+                        direction="row"
+                        gap={2}
+                        className="blur-in"
+                        key={clients.id}
+                      >
+                        <Grid xs={12} md>
+                          <Card variant="bordered" isPressable isHoverable>
+                            <Card.Header
+                              css={{ justifyContent: "space-between" }}
                             >
-                              {clients.client.name}
-                            </Text>
-                            <Text
-                              h3
-                              transform="capitalize"
-                              css={{ textAlign: "center" }}
-                            >
-                              $ {clients.amount}
-                            </Text>
-                          </Card.Body>
-                        </Card>
-                      </Grid>
-                    </Grid.Container>
-                  ))
-                ) : (
-                  <Text>No Hay Cobros Para Hoy</Text>
-                )}
-              </Grid.Container>
-            </Container>
-          </Row>
-        </Container>
+                              <FontAwesomeIcon icon={faUser} width={"20px"} />
+                              <Text span>
+                                {clients.paymentDate.split("T")[0]}
+                              </Text>
+                            </Card.Header>
+
+                            <Card.Body css={{ justifyItems: "center" }}>
+                              <Text
+                                h3
+                                transform="capitalize"
+                                css={{ textAlign: "center" }}
+                              >
+                                {clients.client.name}
+                              </Text>
+                              <Text
+                                h3
+                                transform="capitalize"
+                                css={{ textAlign: "center" }}
+                              >
+                                $ {clients.amount}
+                              </Text>
+                            </Card.Body>
+                          </Card>
+                        </Grid>
+                      </Grid.Container>
+                    ))
+                  ) : (
+                    <Text>No Hay Cobros Para Hoy</Text>
+                  )}
+                </Grid.Container>
+              </Container>
+            </Row>
+          </Container>
+        </>
       )}
-    </>
+    </div>
   );
 }
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
