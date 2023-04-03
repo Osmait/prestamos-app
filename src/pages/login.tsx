@@ -1,3 +1,5 @@
+import { Error } from "@/components/Error";
+import useLoans from "@/hooks/usePrestamos";
 import { Text, Button, Container } from "@nextui-org/react";
 import { Input, Spacer } from "@nextui-org/react";
 
@@ -7,6 +9,7 @@ import { useRef } from "react";
 import { loginApi } from "./api/login";
 
 export default function Login() {
+  const { setError, error } = useLoans();
   const router = useRouter();
   const email = useRef<HTMLInputElement>(null);
 
@@ -15,7 +18,11 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.current || !password.current) {
-      return "Error";
+      setError({
+        error: true,
+        message: "Email o Contraseña Son Incorrectas",
+      });
+      return;
     }
     const data = {
       email: email.current.value,
@@ -27,13 +34,25 @@ export default function Login() {
     if (tokenSEt) {
       Cookies.remove("token");
     }
-    const token = await loginApi(data);
-    if (!token) {
-      return;
-    }
-    Cookies.set("token", token, { expires: 5 });
+    try {
+      const token = await loginApi(data);
+      if (!token) {
+        setError({
+          error: true,
+          message: "Error en el login",
+        });
+        return;
+      }
+      Cookies.set("token", token, { expires: 5 });
 
-    router.push("/");
+      router.push("/");
+    } catch (error) {
+      setError({
+        error: true,
+        message: "Error en el login",
+      });
+      console.log("error");
+    }
   };
 
   return (
@@ -45,9 +64,16 @@ export default function Login() {
         alignItems="center"
       >
         <Spacer y={3.5} />
+        {error.error && (
+          <Error>
+            <Text>{error.message}</Text>
+          </Error>
+        )}
+        <Spacer y={3.5} />
         <Text h2>Login</Text>
         <form onSubmit={handleSubmit}>
           <Spacer y={1.6} />
+
           <Input width="300px" labelPlaceholder="Email" ref={email} />
           <Spacer y={1.6} />
           <Input.Password

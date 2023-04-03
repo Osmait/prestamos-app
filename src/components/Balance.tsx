@@ -6,6 +6,7 @@ import { Text } from "@nextui-org/react";
 import { balanceInterface } from "@/interface/balance";
 import useLoans from "@/hooks/usePrestamos";
 import Loading from "./loading";
+import { match } from "assert";
 
 type Props = {
   loanId: number;
@@ -39,7 +40,11 @@ export const Balance = ({ loanId }: Props) => {
       {balances.length !== 0 ? (
         balances.map((balance: balanceInterface) => (
           <>
-            <Text h3>Balance: ${balance.amount}</Text>
+            <Text h3 color={balance.amount < 0 ? "success" : "error"}>
+              {balance.amount < 0
+                ? `Ganancia:  + $ ${Math.abs(balance.amount)}`
+                : ` Balance: $ ${balance.amount}`}
+            </Text>
           </>
         ))
       ) : (

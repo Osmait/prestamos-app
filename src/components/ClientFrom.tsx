@@ -1,12 +1,15 @@
 import useLoans from "@/hooks/usePrestamos";
 import { clientInterface } from "@/interface/client";
 import { postClients } from "@/pages/api/client";
-import { Button, Input, Modal, Spacer } from "@nextui-org/react";
+import { Button, Input, Modal, Spacer, Text } from "@nextui-org/react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
+import { Error } from "./Error";
 
 export const ClientFrom = ({ closeHandler }: any) => {
+  const { setError, error } = useLoans();
+
   const router = useRouter();
 
   const clienFrom = useRef<HTMLFormElement>(null);
@@ -15,14 +18,22 @@ export const ClientFrom = ({ closeHandler }: any) => {
     e.preventDefault();
 
     if (!clienFrom.current) {
-      return "Error";
+      return;
     }
+
     const formData = new FormData(clienFrom.current);
 
     const data: clientInterface = {
       name: formData.get("name") as String,
       lastName: formData.get("lastName") as String,
     };
+    if (!formData.get("name") || !formData.get("lastName")) {
+      setError({
+        error: true,
+        message: "Monto, Fecha y cliente son necesarios ",
+      });
+      return;
+    }
 
     if (formData.get("email")) {
       data.email = formData.get("email") as String;
@@ -43,6 +54,11 @@ export const ClientFrom = ({ closeHandler }: any) => {
   return (
     <form ref={clienFrom} onSubmit={handleSubmit}>
       <Modal.Body>
+        {error && (
+          <Error>
+            <Text>{error.message}</Text>
+          </Error>
+        )}
         <Input
           label="Nombre"
           name="name"
@@ -52,6 +68,7 @@ export const ClientFrom = ({ closeHandler }: any) => {
           color="primary"
           size="lg"
           placeholder="Nombre"
+          onChange={() => setError(null)}
         />
         <Spacer y={1} />
         <Input
@@ -63,6 +80,7 @@ export const ClientFrom = ({ closeHandler }: any) => {
           color="primary"
           size="lg"
           placeholder="Apellido"
+          onChange={() => setError(null)}
         />
         <Spacer y={1} />
 
@@ -75,6 +93,7 @@ export const ClientFrom = ({ closeHandler }: any) => {
           color="primary"
           size="lg"
           placeholder="email"
+          onChange={() => setError(null)}
         />
         <Spacer y={1} />
         <Input
@@ -86,6 +105,7 @@ export const ClientFrom = ({ closeHandler }: any) => {
           color="primary"
           size="lg"
           placeholder="Telefono"
+          onChange={() => setError(null)}
         />
         <Spacer y={1} />
       </Modal.Body>

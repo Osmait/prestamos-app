@@ -5,6 +5,11 @@ type Props = {
   children: JSX.Element;
 };
 
+type Error = {
+  error: boolean;
+  message: String;
+};
+
 const PrestamosContext = createContext<any>(undefined);
 
 export const PrestamosProvider = ({ children }: Props) => {
@@ -12,6 +17,7 @@ export const PrestamosProvider = ({ children }: Props) => {
 
   const [cambio, setCambio] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     Router.events.on("routeChangeStart", () => setLoading(true));
@@ -41,6 +47,8 @@ export const PrestamosProvider = ({ children }: Props) => {
         setCambio,
         cambio,
         loading,
+        setError,
+        error,
       }}
     >
       {children}
