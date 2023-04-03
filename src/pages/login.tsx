@@ -64,7 +64,7 @@ export default function Login() {
         alignItems="center"
       >
         <Spacer y={3.5} />
-        {error.error && (
+        {error && (
           <Error>
             <Text>{error.message}</Text>
           </Error>
