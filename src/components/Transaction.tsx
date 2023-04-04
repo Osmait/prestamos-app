@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookie from "js-cookie";
 
-import { Row, Text } from "@nextui-org/react";
+import { Row, Table, Text } from "@nextui-org/react";
 import { transactionInterface } from "@/interface/transaction";
 import useLoans from "@/hooks/usePrestamos";
 import Loading from "@/components/loading";
@@ -37,17 +37,34 @@ export const Transaction = ({ loanId }: Props) => {
 
   return (
     <div>
-      {transactions
-        ? transactions.map((transaction: transactionInterface, index) => (
-            <Row key={transaction.id} justify={"space-between"}>
-              <Text>
-                {" "}
-                {index + 1} - ${transaction.amount}
-              </Text>
-              <Text>{transaction.createAt.split("T")[0]}</Text>
-            </Row>
-          ))
-        : []}
+      <Table
+        aria-label="Example table with static content"
+        bordered
+        shadow={false}
+        selectionMode="single"
+        css={{
+          height: "auto",
+          minWidth: "100%",
+        }}
+      >
+        <Table.Header>
+          <Table.Column>Indice</Table.Column>
+
+          <Table.Column>Pagos</Table.Column>
+          <Table.Column>Fecha</Table.Column>
+        </Table.Header>
+        <Table.Body>
+          {transactions
+            ? transactions.map((transaction: transactionInterface, index) => (
+                <Table.Row key={transaction.id}>
+                  <Table.Cell> {index + 1}</Table.Cell>
+                  <Table.Cell>${transaction.amount}</Table.Cell>
+                  <Table.Cell>{transaction.createAt.split("T")[0]}</Table.Cell>
+                </Table.Row>
+              ))
+            : []}
+        </Table.Body>
+      </Table>
     </div>
   );
 };

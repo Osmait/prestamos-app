@@ -26,7 +26,7 @@ export const LoanFrom = ({ closeHandler, client }: any) => {
   const handleSumitLoan = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!amount || !PaymentDate || !client) {
+    if (!amount || !PaymentDate || !client || !interest || !tiempo) {
       setError({
         error: true,
         message: "Monto, Fecha y cliente son necesarios ",
@@ -37,12 +37,15 @@ export const LoanFrom = ({ closeHandler, client }: any) => {
     const data: loanIPostnterface = {
       amount,
       paymentDate: dayjs(PaymentDate).toISOString(),
+      interest: interest,
+      amountOfPayments: tiempo,
       clientId: parseInt(client),
     };
     const token = Cookies.get("token");
     if (!token) {
       return;
     }
+
     try {
       postLoan(token, data);
       router.push("/clients");

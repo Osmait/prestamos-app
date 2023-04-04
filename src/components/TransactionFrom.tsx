@@ -44,10 +44,10 @@ export const TransactionFrom = ({ loanId }: any) => {
         rounded
         auto
         onPress={handler}
-        size={"md"}
+        size={"sm"}
         ghost
         animated
-        css={{ margin: "$10" }}
+        // css={{ marginTop: "$10", marginLeft: "$8" }}
       >
         Agregar Pago
       </Button>

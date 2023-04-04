@@ -19,7 +19,7 @@ export const ModalAdd = ({ clients }: Props) => {
   const { loading } = useLoans();
   const [type, setType] = useState("Client");
   const [visible, setVisible] = useState(true);
-  const [client, setClient] = useState(null);
+  const [client, setClient] = useState<number | undefined>();
 
   // const handler = () => setVisible(true);
 
@@ -27,7 +27,14 @@ export const ModalAdd = ({ clients }: Props) => {
     setVisible(false);
     router.push("/clients");
   };
+  const getName = () => {
+    const filtro = clients.filter((clientd) => clientd.id == client);
+    if (filtro.length <= 0) {
+      return "Clientes";
+    }
 
+    return filtro[0].name;
+  };
   if (loading) return <Loading />;
 
   return (
@@ -55,7 +62,7 @@ export const ModalAdd = ({ clients }: Props) => {
 
           {type == "Prestamo" && (
             <Dropdown>
-              <Dropdown.Button flat>{client}</Dropdown.Button>
+              <Dropdown.Button flat>{getName()}</Dropdown.Button>
               <Dropdown.Menu
                 aria-label="Single selection actions"
                 color="secondary"

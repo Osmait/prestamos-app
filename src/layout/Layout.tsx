@@ -85,13 +85,15 @@ function Layout({ children }: Props) {
             </Navbar.Content>
             <Navbar.Brand>
               <Row>
-                <Text hideIn={"md"} b h3>
-                  Prestamos{" "}
-                  <Text span color="#2529d8">
-                    {" "}
-                    SB{" "}
+                <Link href={"/"}>
+                  <Text hideIn={"md"} b h3>
+                    Prestamos{" "}
+                    <Text span color="#2529d8">
+                      {" "}
+                      SB{" "}
+                    </Text>
                   </Text>
-                </Text>
+                </Link>
               </Row>
             </Navbar.Brand>
           </>

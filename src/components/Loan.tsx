@@ -1,12 +1,15 @@
 import { Balance } from "./Balance";
 
 import { Card, Collapse, Grid, Spacer, Text } from "@nextui-org/react";
-import { Transaction } from "./Transaction";
+
 import { loanInterface } from "@/interface/loan";
 
 import { TransactionFrom } from "./TransactionFrom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyBillTransfer } from "@fortawesome/free-solid-svg-icons";
+
+import ModalTabla from "./modalTabla";
+import ModalTransaction from "./ModalTransaction";
 
 type Props = {
   loans: loanInterface[];
@@ -24,11 +27,11 @@ export default function Loan({ loans }: Props) {
                 className="blur-in"
                 key={loan.id}
               >
-                <Grid xs={12} md>
+                <Grid xs={11} md={12}>
                   <Card variant="bordered" isPressable isHoverable>
-                    <Card.Header css={{ justifyContent: "space-between" }}>
-                      <Text h3>
-                        <Text span css={{ margin: "$5" }}>
+                    <Card.Header css={{ justifyContent: "space-around" }}>
+                      <Text h4>
+                        <Text span>
                           <FontAwesomeIcon
                             icon={faMoneyBillTransfer}
                             width={"30px"}
@@ -36,16 +39,31 @@ export default function Loan({ loans }: Props) {
                         </Text>
                         Prestamos: ${loan.amount.toFixed(2)}
                       </Text>
-                      <Text span>{loan.createAt.split("T")[0]}</Text>
                     </Card.Header>
-                    <Spacer y={0.5} />
-                    <TransactionFrom loanId={loan.id} />
-                    <Collapse.Group>
+
+                    <Text span size={"$xs"} css={{ marginLeft: "$5" }}>
+                      {loan.createAt.split("T")[0]}
+                    </Text>
+
+                    <div
+                      style={{
+                        margin: 10,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        gap: 15,
+                      }}
+                    >
+                      <TransactionFrom loanId={loan.id} />
+                      <ModalTabla loan={loan} />
+                      <ModalTransaction loan={loan} />
+                    </div>
+                    {/* <Collapse.Group>
                       <Collapse title={" Transacciones"} contentLeft>
                         <Transaction loanId={loan.id} />
                       </Collapse>
-                    </Collapse.Group>
-                    <Spacer y={1.6} />
+                    </Collapse.Group> */}
+
                     <Text css={{ textAlign: "center" }}>
                       <Balance loanId={loan.id} />
                     </Text>
