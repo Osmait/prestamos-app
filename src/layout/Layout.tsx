@@ -12,15 +12,9 @@ import {
 import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faMoneyBillTransfer,
-  faUsers,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHome, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import { Logout } from "@/components/Logout";
-import { Suspense } from "react";
-import Loading from "@/components/loading";
 
 type Props = {
   children: JSX.Element;

@@ -1,10 +1,10 @@
-import { Card, Grid, Row, Text } from "@nextui-org/react";
+import { Button, Card, Grid, Row, Text } from "@nextui-org/react";
 
 import { clientInterface } from "@/interface/client";
 
 import Link from "next/link";
 import cookieParser from "cookie-parser";
-import { getClients } from "../api/client";
+import { deleteClients, getClients } from "../api/client";
 import { GetServerSideProps } from "next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
@@ -12,11 +12,43 @@ import { faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import useLoans from "@/hooks/usePrestamos";
 import Loading from "../../components/loading";
 
+import { ModalImage } from "@/components/ModalImage";
+import Cookies from "js-cookie";
+import { useState } from "react";
+import { toast } from "sonner";
+import { DropDown } from "@/components/DropDown";
+
 type Props = {
   clients: clientInterface[];
 };
 
 export default function Clients({ clients }: Props) {
+  const [listClients, setListClients] = useState(clients);
+
+  function handleImage(imagen: any) {
+    const link = document.createElement("a");
+    link.target = "_blank";
+    link.download = "imagen.jpg";
+    link.href = imagen;
+    link.click();
+  }
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("Esta Seguro que desea eliminar este Cliente")) return;
+    const token = Cookies.get("token");
+    if (!token) {
+      return;
+    }
+    try {
+      await deleteClients(token, id);
+      const newclientList = listClients.filter((client) => client.id != id);
+      toast.success("Eliminado Correctamente");
+      setListClients(newclientList);
+    } catch (error) {
+      toast.error("Error al ELiminar");
+    }
+  };
+
   const { loading } = useLoans();
   return (
     <>
@@ -40,8 +72,8 @@ export default function Clients({ clients }: Props) {
           </Link>
 
           <Grid.Container gap={2} className={"container_clients"}>
-            {clients
-              ? clients.map((client: clientInterface) => (
+            {listClients
+              ? listClients.map((client: clientInterface) => (
                   <>
                     <Grid.Container
                       direction="row"
@@ -51,8 +83,14 @@ export default function Clients({ clients }: Props) {
                     >
                       <Grid xs={12} md>
                         <Card variant="bordered" isPressable isHoverable>
-                          <Card.Header>
+                          <Card.Header
+                            css={{ justifyContent: "space-between" }}
+                          >
                             <FontAwesomeIcon icon={faUser} width={"20px"} />
+                            <DropDown
+                              handleDelete={handleDelete}
+                              id={client.id}
+                            />
                           </Card.Header>
                           <Link href={`clients/${client.id}`}>
                             <Card.Body css={{ justifyItems: "center" }}>
@@ -63,15 +101,29 @@ export default function Clients({ clients }: Props) {
                               >
                                 {client.name} {client.lastName}
                               </Text>
-                              <Text
-                                h3
-                                transform="capitalize"
-                                css={{ textAlign: "center" }}
-                              >
-                                <Text>Ver Prestamos</Text>
-                              </Text>
                             </Card.Body>
+                            <Text
+                              h3
+                              transform="capitalize"
+                              css={{ textAlign: "center" }}
+                            >
+                              <Text>Ver Prestamos</Text>
+                            </Text>
                           </Link>
+                          <Card.Footer
+                            css={{ justifyContent: "space-between" }}
+                          >
+                            {!client.img ? (
+                              <ModalImage Id={client.id} />
+                            ) : (
+                              <Button
+                                animated
+                                onPress={() => handleImage(client.img)}
+                              >
+                                Ver Cedula
+                              </Button>
+                            )}
+                          </Card.Footer>
                         </Card>
                       </Grid>
                     </Grid.Container>

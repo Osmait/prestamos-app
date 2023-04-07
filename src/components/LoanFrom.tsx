@@ -2,14 +2,14 @@ import useLoans from "@/hooks/usePrestamos";
 import { loanIPostnterface } from "@/interface/loan";
 import { postLoan } from "@/pages/api/loan";
 import { Button, Input, Modal, Text } from "@nextui-org/react";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+
 import dayjs, { Dayjs } from "dayjs";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { toast } from "sonner";
 import { Error } from "./Error";
 import { InterestTable } from "./InterestTable";
-import { PdfTable } from "./PdfTable";
 
 export const LoanFrom = ({ closeHandler, client }: any) => {
   const { setError, error } = useLoans();
@@ -23,14 +23,19 @@ export const LoanFrom = ({ closeHandler, client }: any) => {
     string | number | Date | Dayjs | null | undefined
   >();
   const router = useRouter();
-  const handleSumitLoan = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSumitLoan = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!amount || !PaymentDate || !client || !interest || !tiempo) {
+      toast.error("Monto, Interes, Fecha y cliente son necesarios ");
       setError({
         error: true,
-        message: "Monto, Fecha y cliente son necesarios ",
+        message: "Monto, Interes, Fecha y cliente son necesarios ",
       });
+
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
       return;
     }
 
@@ -47,7 +52,8 @@ export const LoanFrom = ({ closeHandler, client }: any) => {
     }
 
     try {
-      postLoan(token, data);
+      await postLoan(token, data);
+      toast.success(" Prestamo agregado correctamente");
       router.push("/clients");
     } catch (error) {
       setError({

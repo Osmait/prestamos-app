@@ -21,8 +21,6 @@ export const ModalAdd = ({ clients }: Props) => {
   const [visible, setVisible] = useState(true);
   const [client, setClient] = useState<number | undefined>();
 
-  // const handler = () => setVisible(true);
-
   const closeHandler = () => {
     setVisible(false);
     router.push("/clients");

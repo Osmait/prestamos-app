@@ -4,4 +4,5 @@ export interface clientInterface {
   lastName: String;
   email?: String;
   phoneNumber?: String;
+  img?: String;
 }

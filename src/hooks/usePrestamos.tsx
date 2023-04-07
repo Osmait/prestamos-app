@@ -13,8 +13,6 @@ type Error = {
 const PrestamosContext = createContext<any>(undefined);
 
 export const PrestamosProvider = ({ children }: Props) => {
-  // const [clientsList, setClientsList] = useState<clientInterface[]>();
-
   const [cambio, setCambio] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -29,17 +27,6 @@ export const PrestamosProvider = ({ children }: Props) => {
       Router.events.off("routeChangeError", () => setLoading(false));
     };
   }, []);
-
-  // useEffect(() => {
-  //   const getClient = async () => {
-  //     const token = Cookies.get("token");
-
-  //     const clients: clientInterface[] = await getClients(token!);
-
-  //     setClientsList(clients);
-  //   };
-  //   getClient();
-  // }, [cambio]);
 
   return (
     <PrestamosContext.Provider

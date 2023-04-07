@@ -118,9 +118,13 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     },
   };
   try {
-    const { data: user } = await axios.get(`${API}/user/profile`, config);
+    const [userResponse, clientsResponse] = await Promise.all([
+      axios.get(`${API}/user/profile`, config),
+      axios.get(`${API}/loan/payment`, config),
+    ]);
 
-    const { data: clients } = await axios.get(`${API}/loan/payment`, config);
+    const { data: user } = userResponse;
+    const { data: clients } = clientsResponse;
 
     return {
       props: { user, clients },

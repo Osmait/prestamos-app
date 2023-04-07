@@ -57,6 +57,9 @@
     transform: scale(1);
   }
 }
+body {
+  background-color: #16181a;
+}
 
 .container_clients {
   display: grid;

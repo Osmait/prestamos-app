@@ -17,11 +17,14 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email.current || !password.current) {
+    if (!email.current?.value || !password.current?.value) {
       setError({
         error: true,
-        message: "Email o Contraseña Son Incorrectas",
+        message: "Email y Contraseña Son Requeridos",
       });
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
       return;
     }
     const data = {
@@ -39,8 +42,11 @@ export default function Login() {
       if (!token) {
         setError({
           error: true,
-          message: "Error en el login",
+          message: "Error en el  Al Logear",
         });
+        setTimeout(() => {
+          setError(null);
+        }, 2000);
         return;
       }
       Cookies.set("token", token, { expires: 5 });
@@ -51,7 +57,9 @@ export default function Login() {
         error: true,
         message: "Error en el login",
       });
-      console.log("error");
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
     }
   };
 

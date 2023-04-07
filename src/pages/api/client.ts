@@ -19,6 +19,15 @@ export const getClients = async (token: String) => {
 export const postClients = async (token: String, body: clientInterface) => {
   axios.defaults.headers.Authorization = `Bearer ${token}`;
   const { data: clients } = await axios.post(`${API}/client`, body);
+};
 
-  console.log(clients);
+export const deleteClients = async (token: String, id: number) => {
+  const config = {
+    headers: {
+      "content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return await axios.delete(`${API}/client/${id}`, config);
 };

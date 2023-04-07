@@ -3,6 +3,7 @@ import { Button, Input, Modal, Spacer, Text } from "@nextui-org/react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useRef, useState } from "react";
+import { toast } from "sonner";
 
 const API = process.env.NEXT_PUBLIC_API;
 
@@ -29,6 +30,7 @@ export const TransactionFrom = ({ loanId }: any) => {
 
     axios.defaults.headers.Authorization = `Bearer ${token}`;
     await axios.post(`${API}/transaction`, transaction);
+    toast.success(" Pago agregado correctamente");
     setCambio(!cambio);
     setAmount(0);
   };
@@ -40,15 +42,7 @@ export const TransactionFrom = ({ loanId }: any) => {
 
   return (
     <div>
-      <Button
-        rounded
-        auto
-        onPress={handler}
-        size={"sm"}
-        ghost
-        animated
-        // css={{ marginTop: "$10", marginLeft: "$8" }}
-      >
+      <Button rounded auto onPress={handler} size={"sm"} ghost animated>
         Agregar Pago
       </Button>
 

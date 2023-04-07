@@ -6,6 +6,7 @@ import Layout from "@/layout/Layout";
 import { AuthProvider } from "@/hooks/useAuth";
 import { PrestamosProvider } from "@/hooks/usePrestamos";
 import { Suspense } from "react";
+import { Toaster } from "sonner";
 
 const theme = createTheme({
   type: "dark", // it could be "light" or "dark"
@@ -44,6 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <AuthProvider>
         <PrestamosProvider>
           <NextUIProvider theme={theme}>
+            <Toaster richColors expand={true} />
             <Layout>
               <Suspense fallback={<Loading />}>
                 <Component {...pageProps} />

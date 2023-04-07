@@ -8,3 +8,8 @@ export const getAllTransaction = async (token: String) => {
 
   return transaction;
 };
+
+export const deleteTransaction = async (token: String, id: number) => {
+  axios.defaults.headers.Authorization = `Bearer ${token}`;
+  return await axios.delete(`${API}/transaction/${id}`);
+};

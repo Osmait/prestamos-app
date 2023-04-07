@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button, Card, Container } from "@nextui-org/react";
 import React from "react";
 
 type Props = {
@@ -7,8 +7,10 @@ type Props = {
 
 export const Error = ({ children }: Props) => {
   return (
-    <Button auto color="error">
-      {children}
-    </Button>
+    <Container>
+      <Card css={{ backgroundColor: "#ff0000" }}>
+        <Card.Body>{children}</Card.Body>
+      </Card>
+    </Container>
   );
 };

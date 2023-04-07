@@ -5,6 +5,8 @@ import { Button, Input, Modal, Spacer, Text } from "@nextui-org/react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
+import { toast } from "sonner";
+
 import { Error } from "./Error";
 
 export const ClientFrom = ({ closeHandler }: any) => {
@@ -28,10 +30,15 @@ export const ClientFrom = ({ closeHandler }: any) => {
       lastName: formData.get("lastName") as String,
     };
     if (!formData.get("name") || !formData.get("lastName")) {
+      toast.error("Nombre y Apellido son requeridos");
       setError({
         error: true,
-        message: "Monto, Fecha y cliente son necesarios ",
+        message: "Nombre y Apellido son requeridos ",
       });
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
+
       return;
     }
 
@@ -47,6 +54,7 @@ export const ClientFrom = ({ closeHandler }: any) => {
       return;
     }
     await postClients(token, data);
+    toast.success("Agregado Correctamente");
 
     router.push("/clients");
   };

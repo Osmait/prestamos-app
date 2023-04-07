@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookie from "js-cookie";
 
-import { Row, Table, Text } from "@nextui-org/react";
+import { Button, Row, Table, Text } from "@nextui-org/react";
 import { transactionInterface } from "@/interface/transaction";
 import useLoans from "@/hooks/usePrestamos";
 import Loading from "@/components/loading";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import Cookies from "js-cookie";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { deleteTransaction } from "@/pages/api/transactions";
+import { toast } from "sonner";
 
 type Props = {
   loanId: number;
@@ -13,7 +18,7 @@ type Props = {
 const API = process.env.NEXT_PUBLIC_API;
 
 export const Transaction = ({ loanId }: Props) => {
-  const { cambio } = useLoans();
+  const { cambio, setCambio } = useLoans();
   const [loading, setLoading] = useState<boolean>(false);
 
   const [transactions, setTransaction] = useState<transactionInterface[]>([]);
@@ -32,6 +37,24 @@ export const Transaction = ({ loanId }: Props) => {
     };
     getLoan();
   }, [loanId, cambio]);
+
+  const handleDelete = (id: number) => {
+    console.log(id);
+
+    const token = Cookies.get("token");
+    if (!token) {
+      return;
+    }
+    try {
+      deleteTransaction(token, id);
+      toast.success("Eliminado Correctamente");
+      setCambio(!cambio);
+    } catch (error) {
+      toast.error("Error al Eliminar");
+
+      console.log(error);
+    }
+  };
 
   if (loading) return <Loading />;
 
@@ -52,6 +75,7 @@ export const Transaction = ({ loanId }: Props) => {
 
           <Table.Column>Pagos</Table.Column>
           <Table.Column>Fecha</Table.Column>
+          <Table.Column>{""}</Table.Column>
         </Table.Header>
         <Table.Body>
           {transactions
@@ -59,7 +83,17 @@ export const Transaction = ({ loanId }: Props) => {
                 <Table.Row key={transaction.id}>
                   <Table.Cell> {index + 1}</Table.Cell>
                   <Table.Cell>${transaction.amount}</Table.Cell>
-                  <Table.Cell>{transaction.createAt.split("T")[0]}</Table.Cell>
+                  <Table.Cell css={{ justifyContent: "space-between" }}>
+                    {transaction.createAt.split("T")[0]}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <FontAwesomeIcon
+                      icon={faXmark}
+                      width={"20px"}
+                      color={"#ff0000"}
+                      onClick={() => handleDelete(transaction.id)}
+                    />
+                  </Table.Cell>
                 </Table.Row>
               ))
             : []}
