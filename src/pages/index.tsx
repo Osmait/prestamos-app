@@ -16,7 +16,7 @@ import Loading from "../components/loading";
 type Props = {
   user: any;
   clients: clientInterface[];
-  loan: any;
+  loan: loanInterface[];
 };
 const API = process.env.NEXT_PUBLIC_API;
 
@@ -28,8 +28,12 @@ export default function Home({ user, clients, loan }: Props) {
   if (user == null) {
     return;
   }
+  let Total = 0;
 
-  const capital = loan.reduce((a: any, b: any) => a.amount + b.amount);
+  loan.forEach((lo: loanInterface) => {
+    Total += lo.amount;
+  });
+
   return (
     <div className="blur-in ">
       <Text h1 transform="capitalize" css={{ textAlign: "center" }}>
@@ -40,7 +44,7 @@ export default function Home({ user, clients, loan }: Props) {
       </Text>
       <Text h3 css={{ marginLeft: "$10" }}>
         {" "}
-        Capital Invertido: ${loan ? capital : 0}
+        Capital Invertido: ${Total}
       </Text>
 
       {loading ? (
