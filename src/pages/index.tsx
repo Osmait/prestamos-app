@@ -2,6 +2,7 @@ import { Charts } from "@/components/charts";
 import useAuth from "@/hooks/useAuth";
 import useLoans from "@/hooks/usePrestamos";
 import { clientInterface } from "@/interface/client";
+import { loanInterface } from "@/interface/loan";
 
 import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,10 +16,11 @@ import Loading from "../components/loading";
 type Props = {
   user: any;
   clients: clientInterface[];
+  loan: any;
 };
 const API = process.env.NEXT_PUBLIC_API;
 
-export default function Home({ user, clients }: Props) {
+export default function Home({ user, clients, loan }: Props) {
   const { setUser } = useAuth();
   const { loading } = useLoans();
 
@@ -27,6 +29,7 @@ export default function Home({ user, clients }: Props) {
     return;
   }
 
+  const capital = loan.reduce((a: any, b: any) => a.amount + b.amount);
   return (
     <div className="blur-in ">
       <Text h1 transform="capitalize" css={{ textAlign: "center" }}>
@@ -34,6 +37,10 @@ export default function Home({ user, clients }: Props) {
           <FontAwesomeIcon icon={faHome} width={"30px"} />
         </Text>
         Inicio
+      </Text>
+      <Text h3 css={{ marginLeft: "$10" }}>
+        {" "}
+        Capital Invertido: ${loan ? capital : 0}
       </Text>
 
       {loading ? (
@@ -118,16 +125,18 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     },
   };
   try {
-    const [userResponse, clientsResponse] = await Promise.all([
+    const [userResponse, clientsResponse, loanResponse] = await Promise.all([
       axios.get(`${API}/user/profile`, config),
       axios.get(`${API}/loan/payment`, config),
+      axios.get(`${API}/loan`, config),
     ]);
 
     const { data: user } = userResponse;
+    const { data: loan } = loanResponse;
     const { data: clients } = clientsResponse;
 
     return {
-      props: { user, clients },
+      props: { user, clients, loan },
     };
   } catch (error) {
     return {
