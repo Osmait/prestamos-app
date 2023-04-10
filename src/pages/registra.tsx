@@ -1,15 +1,18 @@
+import useLoans from "@/hooks/usePrestamos";
 import { userSingUp } from "@/interface/userSignip";
 import { Card, Text, Button, Container } from "@nextui-org/react";
 import { Input, Spacer } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import { useRef } from "react";
+import { toast } from "sonner";
+
 import { signUp } from "./api/signUp";
 
 export default function Registrar() {
   const router = useRouter();
   const form = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!form.current) {
@@ -23,9 +26,17 @@ export default function Registrar() {
       email: formData.get("email") as String,
       password: formData.get("password") as String,
     };
-
-    signUp(data);
-    router.push("/login");
+    try {
+      await signUp(data);
+      toast.success("Usuario creado correctamente ");
+      router.push("/login");
+    } catch (error: any) {
+      Object.values(JSON.parse(error.request.responseText)).forEach(
+        (message: any) => {
+          toast.error(message);
+        }
+      );
+    }
   };
 
   return (
@@ -36,24 +47,43 @@ export default function Registrar() {
       alignItems="center"
     >
       <Spacer y={3.5} />
-      <Text h2>Registrar</Text>
+      <Text h2 data-testid="title">
+        Registrar
+      </Text>
       <form onSubmit={handleSubmit} ref={form}>
         <Spacer y={1.6} />
-        <Input width="300px" labelPlaceholder="Name" name="name" />
+        <Input
+          width="300px"
+          labelPlaceholder="Name"
+          name="name"
+          label="Name"
+          data-testid="num1"
+        />
         <Spacer y={1.6} />
-        <Input width="300px" labelPlaceholder="Last Name" name="lastName" />
+        <Input
+          width="300px"
+          labelPlaceholder="Last Name"
+          name="lastName"
+          label="Last Name"
+        />
         <Spacer y={1.6} />
-        <Input width="300px" labelPlaceholder="Email" name="email" />
+        <Input
+          width="300px"
+          labelPlaceholder="Email"
+          name="email"
+          label="Email"
+        />
         <Spacer y={1.6} />
         <Input.Password
           width="300px"
           labelPlaceholder="Password"
           name="password"
+          label="Password"
         />
         <Spacer y={1.6} />
 
-        <Button shadow rounded size={"lg"} type="submit">
-          Registar
+        <Button shadow rounded size={"lg"} type="submit" name="Registrar">
+          Registrar
         </Button>
         <Spacer y={1.6} />
       </form>

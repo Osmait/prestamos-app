@@ -39,6 +39,7 @@ function Layout({ children }: Props) {
             <Navbar.Content>
               <User
                 src={`https://ui-avatars.com/api/?name=${user.name}+${user.lastName}`}
+                altText={"user imagen"}
                 name={user?.name}
                 bordered
                 color="primary"

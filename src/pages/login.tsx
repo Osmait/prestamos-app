@@ -5,11 +5,17 @@ import { Input, Spacer } from "@nextui-org/react";
 
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { toast } from "sonner";
 import { loginApi } from "./api/login";
 
+type Error = {
+  error: boolean;
+  message: String;
+};
+
 export default function Login() {
-  const { setError, error } = useLoans();
+  const [error, setError] = useState<Error | null>(null);
   const router = useRouter();
   const email = useRef<HTMLInputElement>(null);
 
@@ -18,6 +24,7 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.current?.value || !password.current?.value) {
+      toast.error("Email y Contraseña Son Requeridos");
       setError({
         error: true,
         message: "Email y Contraseña Son Requeridos",
@@ -49,10 +56,17 @@ export default function Login() {
         }, 2000);
         return;
       }
+      toast.success("Login Success");
       Cookies.set("token", token, { expires: 5 });
 
       router.push("/");
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error);
+      // Object.values(JSON.parse(error.request.responseText)).forEach(
+      //   (message: any) => {
+      //     toast.error(message);
+      //   }
+      // );
       setError({
         error: true,
         message: "Error en el login",
@@ -78,13 +92,21 @@ export default function Login() {
           </Error>
         )}
         <Spacer y={3.5} />
-        <Text h2>Login</Text>
+        <Text h2 data-testid={"login"}>
+          Login
+        </Text>
         <form onSubmit={handleSubmit}>
           <Spacer y={1.6} />
 
-          <Input width="300px" labelPlaceholder="Email" ref={email} />
+          <Input
+            width="300px"
+            labelPlaceholder="Email"
+            ref={email}
+            label="Email"
+          />
           <Spacer y={1.6} />
           <Input.Password
+            label="Password"
             width="300px"
             labelPlaceholder="Password"
             ref={password}

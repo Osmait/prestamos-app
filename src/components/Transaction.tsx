@@ -38,7 +38,7 @@ export const Transaction = ({ loanId }: Props) => {
     getLoan();
   }, [loanId, cambio]);
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     console.log(id);
 
     const token = Cookies.get("token");
@@ -46,7 +46,7 @@ export const Transaction = ({ loanId }: Props) => {
       return;
     }
     try {
-      deleteTransaction(token, id);
+      await deleteTransaction(token, id);
       toast.success("Eliminado Correctamente");
       setCambio(!cambio);
     } catch (error) {

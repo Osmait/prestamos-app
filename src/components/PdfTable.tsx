@@ -46,11 +46,12 @@ const styles = StyleSheet.create({
 export const PdfTable = ({ amount, interest, date, tiempo }: any) => {
   const pagos = Array(tiempo).fill(0);
   let now = dayjs(date);
+  const interesFinal = interest / 100 + 1;
 
   for (let i = 0; i < pagos.length; i++) {
-    pagos[i] = (amount * interest) / tiempo;
+    pagos[i] = (amount * interesFinal) / tiempo;
   }
-  let amountInterest = amount * interest;
+  let amountInterest = amount * interesFinal;
   return (
     <Document>
       <Page style={styles.body}>
@@ -91,8 +92,8 @@ export const PdfTable = ({ amount, interest, date, tiempo }: any) => {
                 </View>
               </View>
             ))}
-          <Text> Total: ${amount * interest}</Text>
-          <Text> Ganancias: ${amount * interest - amount}</Text>
+          <Text> Total: ${amount * interesFinal}</Text>
+          <Text> Ganancias: ${amount * interesFinal - amount}</Text>
         </View>
       </Page>
     </Document>
