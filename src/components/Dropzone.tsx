@@ -1,4 +1,4 @@
-import { Button, Card, Container, Spacer, Text } from "@nextui-org/react";
+import { Button, Text } from "@nextui-org/react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React from "react";

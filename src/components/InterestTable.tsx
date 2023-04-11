@@ -1,3 +1,4 @@
+import { payments, profits } from "@/utils/interresUtils";
 import { Button, Table, Text } from "@nextui-org/react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import dayjs from "dayjs";
@@ -5,14 +6,17 @@ import React from "react";
 import { PdfTable } from "./PdfTable";
 
 export const InterestTable = ({ amount, interest, date, tiempo }: any) => {
-  const pagos = Array(tiempo).fill(0);
   let now = dayjs(date);
+
   const interesFinal = interest / 100 + 1;
 
-  for (let i = 0; i < pagos.length; i++) {
-    pagos[i] = (amount * interesFinal) / tiempo;
-  }
+  const paymenst = payments(tiempo, amount, interesFinal);
+
   let amountInterest = amount * interesFinal;
+
+  const profit = profits(amount, interesFinal);
+
+  const total = amount * interesFinal;
 
   return (
     <>
@@ -32,25 +36,21 @@ export const InterestTable = ({ amount, interest, date, tiempo }: any) => {
           <Table.Column>Balance</Table.Column>
         </Table.Header>
         <Table.Body>
-          {pagos &&
-            pagos.map((pago: number, i) => (
-              <Table.Row key={i}>
-                <Table.Cell>
-                  {
-                    now
-                      .add(1 + i, "month")
-                      .toISOString()
-                      .split("T")[0]
-                  }
-                </Table.Cell>
-                <Table.Cell>{pago.toFixed(2)}</Table.Cell>
-                <Table.Cell>{(amountInterest -= pago).toFixed(2)}</Table.Cell>
-              </Table.Row>
-            ))}
+          {paymenst &&
+            paymenst.map((pago: number, i) => {
+              now = now.add(15, "days");
+              return (
+                <Table.Row key={i}>
+                  <Table.Cell>{now.toISOString().split("T")[0]}</Table.Cell>
+                  <Table.Cell>{pago.toFixed(2)}</Table.Cell>
+                  <Table.Cell>{(amountInterest -= pago).toFixed(2)}</Table.Cell>
+                </Table.Row>
+              );
+            })}
         </Table.Body>
       </Table>
-      <Text h3> Total: ${amount * interesFinal}</Text>
-      <Text h3> Interes Generados: ${amount * interesFinal - amount}</Text>
+      <Text h3> Total: ${total}</Text>
+      <Text h3> Interes Generados: ${profit}</Text>
 
       <PDFDownloadLink
         document={
