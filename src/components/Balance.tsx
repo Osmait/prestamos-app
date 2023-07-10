@@ -15,7 +15,7 @@ const API = process.env.NEXT_PUBLIC_API;
 
 export const Balance = ({ loanId }: Props) => {
   const { cambio } = useLoans();
-  const [balances, setBalaces] = useState<balanceInterface[]>([]);
+  const [balances, setBalaces] = useState<balanceInterface>();
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -37,20 +37,16 @@ export const Balance = ({ loanId }: Props) => {
 
   return (
     <>
-      {balances.length !== 0 ? (
-        balances.map((balance: balanceInterface) => (
-          <>
-            <Text
-              key={balance.id}
-              h3
-              color={balance.amount < 0 ? "success" : "error"}
-            >
-              {balance.amount < 0
-                ? `Ganancia:  + $ ${Math.abs(balance.amount)}`
-                : ` Balance: $ ${balance.amount}`}
-            </Text>
-          </>
-        ))
+      {balances ? (
+        <Text
+          key={Number(balances.id)}
+          h3
+          color={balances.amount < 0 ? "success" : "error"}
+        >
+          {balances.amount < 0
+            ? `Ganancia:  + $ ${Math.abs(balances.amount)}`
+            : ` Balance: $ ${balances.amount}`}
+        </Text>
       ) : (
         <Text h3> No hay pagos Realizados..</Text>
       )}

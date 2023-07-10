@@ -1,12 +1,20 @@
 import { Dayjs } from "dayjs";
 
+export enum Frecquency {
+  MONTHLY,
+  BIWEEKLY,
+}
+
 export interface loanInterface {
   id: number;
   amount: number;
   paymentDate: string;
+  secondPaymentDate: string;
   interest: number;
+  frequency: Frecquency;
   amountOfPayments: number;
-  createAt: string;
+  CreateAt: String;
+  UpdateAt: String;
 }
 
 export interface loanIPostnterface {
@@ -14,6 +22,7 @@ export interface loanIPostnterface {
   paymentDate: string;
   interest: number;
   amountOfPayments: number;
-
+  secondPaymentDate: string;
+  frequency: Frecquency;
   clientId: number;
 }

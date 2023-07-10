@@ -12,7 +12,7 @@ export const getClients = async (token: String) => {
   };
 
   const { data: clients } = await axios.get(`${API}/client`, config);
-
+  console.log(clients);
   return clients;
 };
 

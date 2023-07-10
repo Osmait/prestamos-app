@@ -66,7 +66,7 @@ export default function Loan({ loans }: Props) {
                     </Card.Header>
 
                     <Text span size={"$xs"} css={{ marginLeft: "$5" }}>
-                      {loan.createAt.split("T")[0]}
+                      {loan.CreateAt[2]}-{loan.CreateAt[1]}-{loan.CreateAt[0]}
                     </Text>
 
                     <div

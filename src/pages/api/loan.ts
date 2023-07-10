@@ -1,13 +1,18 @@
 import axios from "axios";
-import { loanIPostnterface } from "@/interface/loan";
+import { loanIPostnterface, loanInterface } from "@/interface/loan";
+import { Dayjs } from "dayjs";
 
 const API = process.env.NEXT_PUBLIC_API;
 
-export const getLoan = async (token: String, id: String) => {
+export const getLoan = async (
+  token: String,
+  id: String
+): Promise<loanInterface> => {
   axios.defaults.headers.Authorization = `Bearer ${token}`;
-  const { data: clients } = await axios.get(`${API}/loan/${id}`);
+  const { data } = await axios.get(`${API}/loan/${id}`);
+ 
 
-  return clients;
+  return data;
 };
 
 export const deleteLoan = async (token: String, id: number) => {

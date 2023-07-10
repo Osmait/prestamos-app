@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: Props) => {
 
     try {
       const getProfile = async () => {
-        const { data: user } = await axios.get(`${API}/user/profile`, config);
+        const { data: user } = await axios.get(`${API}/profile`, config);
         setUser(user);
       };
       getProfile();

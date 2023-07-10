@@ -1,5 +1,5 @@
 export interface balanceInterface {
-  id: number;
+  id: String;
   amount: number;
   createAt: string;
 }

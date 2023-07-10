@@ -3,6 +3,7 @@ export interface clientInterface {
   name: String;
   lastName: String;
   email?: String;
-  phoneNumber?: String;
+  phone?: String;
+  address?: String;
   img?: String;
 }

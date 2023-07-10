@@ -45,14 +45,17 @@ export const ClientFrom = ({ closeHandler }: any) => {
     if (formData.get("email")) {
       data.email = formData.get("email") as String;
     }
-    if (formData.get("phoneNumber")) {
-      data.phoneNumber = formData.get("phoneNumber") as String;
+    if (formData.get("phone")) {
+      data.phone = formData.get("phone") as String;
     }
-
+    if (formData.get("address")) {
+      data.address = formData.get("address") as String;
+    }
     const token = Cookies.get("token");
     if (!token) {
       return;
     }
+    console.log(data);
     await postClients(token, data);
     toast.success("Agregado Correctamente");
 
@@ -106,13 +109,25 @@ export const ClientFrom = ({ closeHandler }: any) => {
         <Spacer y={1} />
         <Input
           label="Telefono"
-          name="phoneNumber"
+          name="phone"
           clearable
           bordered
           fullWidth
           color="primary"
           size="lg"
           placeholder="Telefono"
+          onChange={() => setError(null)}
+        />
+        <Spacer y={1} />
+        <Input
+          label="Direccion"
+          name="address"
+          clearable
+          bordered
+          fullWidth
+          color="primary"
+          size="lg"
+          placeholder="Direccion"
           onChange={() => setError(null)}
         />
         <Spacer y={1} />

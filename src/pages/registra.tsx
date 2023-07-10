@@ -31,11 +31,12 @@ export default function Registrar() {
       toast.success("Usuario creado correctamente ");
       router.push("/login");
     } catch (error: any) {
-      Object.values(JSON.parse(error.request.responseText)).forEach(
-        (message: any) => {
-          toast.error(message);
-        }
-      );
+      // Object.values(JSON.parse(error.request.responseText)).forEach(
+      //   (message: any) => {
+      //     toast.error(message);
+      //   }
+      // );
+      console.log(error);
     }
   };
 

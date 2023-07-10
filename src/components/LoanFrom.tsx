@@ -1,7 +1,7 @@
 import useLoans from "@/hooks/usePrestamos";
-import { loanIPostnterface } from "@/interface/loan";
+import { Frecquency, loanIPostnterface } from "@/interface/loan";
 import { postLoan } from "@/pages/api/loan";
-import { Button, Input, Modal, Text } from "@nextui-org/react";
+import { Button, Checkbox, Input, Modal, Text } from "@nextui-org/react";
 
 import dayjs, { Dayjs } from "dayjs";
 import Cookies from "js-cookie";
@@ -18,15 +18,26 @@ export const LoanFrom = ({ closeHandler, client }: any) => {
   const [amount, setAmount] = useState<number>();
   const [interest, setInterest] = useState<number>();
   const [tiempo, setTiempo] = useState<number>();
+  const [frequency, setFrequency] = useState<boolean>(false);
 
   const [PaymentDate, setPaymentDate] = useState<
+    string | number | Date | Dayjs | null | undefined
+  >();
+  const [secondPaymentDate, setSecondPaymentDate] = useState<
     string | number | Date | Dayjs | null | undefined
   >();
   const router = useRouter();
   const handleSumitLoan = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!amount || !PaymentDate || !client || !interest || !tiempo) {
+    if (
+      !amount ||
+      !PaymentDate ||
+      !client ||
+      !interest ||
+      !tiempo ||
+      !secondPaymentDate
+    ) {
       toast.error("Monto, Interes, Fecha y cliente son necesarios ");
       setError({
         error: true,
@@ -42,10 +53,14 @@ export const LoanFrom = ({ closeHandler, client }: any) => {
     const data: loanIPostnterface = {
       amount,
       paymentDate: dayjs(PaymentDate).toISOString(),
+      secondPaymentDate: dayjs(secondPaymentDate).toISOString(),
+      frequency: frequency ? Frecquency.MONTHLY : Frecquency.BIWEEKLY,
       interest: interest,
       amountOfPayments: tiempo,
-      clientId: parseInt(client),
+      clientId: client,
     };
+    console.log(data);
+
     const token = Cookies.get("token");
     if (!token) {
       return;
@@ -131,6 +146,25 @@ export const LoanFrom = ({ closeHandler, client }: any) => {
             setPaymentDate(e.target.value);
           }}
         />
+
+        {!frequency && (
+          <Input
+            label="Fecha de Pago"
+            type={"date"}
+            name="Date"
+            clearable
+            bordered
+            fullWidth
+            color="primary"
+            size="lg"
+            placeholder="Fecha"
+            onChange={(e) => {
+              setError(null);
+              setSecondPaymentDate(e.target.value);
+            }}
+          />
+        )}
+        <Checkbox onChange={(e) => setFrequency(e)}>Mensual</Checkbox>
       </Modal.Body>
 
       <Modal.Footer>

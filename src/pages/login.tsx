@@ -45,6 +45,7 @@ export default function Login() {
       Cookies.remove("token");
     }
     try {
+    
       const token = await loginApi(data);
       if (!token) {
         setError({
