@@ -1,4 +1,9 @@
 import useLoans from "@/hooks/usePrestamos";
+import {
+  TransactionType,
+  transactionInterface,
+  transactionInterfacePost,
+} from "@/interface/transaction";
 import { Button, Input, Modal, Spacer, Text } from "@nextui-org/react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -10,7 +15,7 @@ const API = process.env.NEXT_PUBLIC_API;
 export const TransactionFrom = ({ loanId }: any) => {
   const { cambio, setCambio } = useLoans();
   const [visible, setVisible] = useState(false);
-  const [amount, setAmount] = useState<number>();
+  const [amount, setAmount] = useState<number>(0);
   const transactionFrom = useRef<HTMLFormElement>(null);
 
   const handleSumittransaction = async (
@@ -18,8 +23,9 @@ export const TransactionFrom = ({ loanId }: any) => {
   ) => {
     e.preventDefault();
 
-    const transaction = {
+    const transaction: transactionInterfacePost = {
       amount,
+      transactionType: TransactionType.pay,
       loanId,
     };
 

@@ -46,7 +46,7 @@ export const Transaction = ({ loanId }: Props) => {
       return;
     }
     try {
-      await deleteTransaction(token, id);
+      await deleteTransaction(token, id!);
       toast.success("Eliminado Correctamente");
       setCambio(!cambio);
     } catch (error) {
@@ -57,6 +57,7 @@ export const Transaction = ({ loanId }: Props) => {
   };
 
   if (loading) return <Loading />;
+  console.log(transactions);
 
   return (
     <div>
@@ -84,14 +85,15 @@ export const Transaction = ({ loanId }: Props) => {
                   <Table.Cell> {index + 1}</Table.Cell>
                   <Table.Cell>${transaction.amount}</Table.Cell>
                   <Table.Cell css={{ justifyContent: "space-between" }}>
-                    {transaction.createAt.split("T")[0]}
+                    {transaction.CreateAt[2]!}-{transaction.CreateAt[1]!}-
+                    {transaction.CreateAt[0]!}
                   </Table.Cell>
                   <Table.Cell>
                     <FontAwesomeIcon
                       icon={faXmark}
                       width={"20px"}
                       color={"#ff0000"}
-                      onClick={() => handleDelete(transaction.id)}
+                      onClick={() => handleDelete(transaction.id!)}
                     />
                   </Table.Cell>
                 </Table.Row>
