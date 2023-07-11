@@ -19,6 +19,7 @@ export default function LoanPage({ loans }: Props) {
   if (loading) return <Loading />;
 
   return loans.length > 0 ? (
+    
     <Loan loans={loans} />
   ) : (
     <>

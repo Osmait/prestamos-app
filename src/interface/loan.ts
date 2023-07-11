@@ -12,6 +12,7 @@ export interface loanInterface {
   secondPaymentDate: string;
   interest: number;
   frequency: Frecquency;
+  isPaid: boolean;
   amountOfPayments: number;
   CreateAt: String;
   UpdateAt: String;

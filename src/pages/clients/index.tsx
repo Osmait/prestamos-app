@@ -71,62 +71,51 @@ export default function Clients({ clients }: Props) {
             </Card>
           </Link>
 
-          <Grid.Container gap={2} className={"container_clients"}>
+          <Grid.Container gap={2} className="container_clients blur-in">
             {listClients
               ? listClients.map((client: clientInterface) => (
                   <>
-                    <Grid.Container
-                      direction="row"
-                      gap={2}
-                      className="blur-in"
-                      key={client.id}
-                    >
-                      <Grid xs={12} md>
-                        <Card variant="bordered" isPressable isHoverable>
-                          <Card.Header
-                            css={{ justifyContent: "space-between" }}
-                          >
-                            <FontAwesomeIcon icon={faUser} width={"20px"} />
-                            <DropDown
-                              handleDelete={handleDelete}
-                              id={client.id}
-                            />
-                          </Card.Header>
-                          <Link href={`clients/${client.id}`}>
-                            <Card.Body css={{ justifyItems: "center" }}>
-                              <Text
-                                h3
-                                transform="capitalize"
-                                css={{ textAlign: "center" }}
-                              >
-                                {client.name} {client.lastName}
-                              </Text>
-                            </Card.Body>
+                    <Grid xs={11} md={12}>
+                      <Card variant="bordered" isPressable isHoverable>
+                        <Card.Header css={{ justifyContent: "space-between" }}>
+                          <FontAwesomeIcon icon={faUser} width={"20px"} />
+                          <DropDown
+                            handleDelete={handleDelete}
+                            id={client.id}
+                          />
+                        </Card.Header>
+                        <Link href={`clients/${client.id}`}>
+                          <Card.Body css={{ justifyItems: "center" }}>
                             <Text
                               h3
                               transform="capitalize"
                               css={{ textAlign: "center" }}
                             >
-                              <Text>Ver Prestamos</Text>
+                              {client.name} {client.lastName}
                             </Text>
-                          </Link>
-                          <Card.Footer
-                            css={{ justifyContent: "space-between" }}
+                          </Card.Body>
+                          <Text
+                            h3
+                            transform="capitalize"
+                            css={{ textAlign: "center" }}
                           >
-                            {!client.img ? (
-                              <ModalImage Id={client.id} />
-                            ) : (
-                              <Button
-                                animated
-                                onPress={() => handleImage(client.img)}
-                              >
-                                Ver Cedula
-                              </Button>
-                            )}
-                          </Card.Footer>
-                        </Card>
-                      </Grid>
-                    </Grid.Container>
+                            <Text>Ver Prestamos</Text>
+                          </Text>
+                        </Link>
+                        <Card.Footer css={{ justifyContent: "space-between" }}>
+                          {!client.img ? (
+                            <ModalImage Id={client.id} />
+                          ) : (
+                            <Button
+                              animated
+                              onPress={() => handleImage(client.img)}
+                            >
+                              Ver Cedula
+                            </Button>
+                          )}
+                        </Card.Footer>
+                      </Card>
+                    </Grid>
                   </>
                 ))
               : []}
