@@ -16,11 +16,11 @@ import Loading from "../components/loading";
 type Props = {
   user: any;
   // clients: clientInterface[];
-  // loan: loanInterface[];
+  loan: loanInterface[];
 };
 const API = process.env.NEXT_PUBLIC_API;
 
-export default function Home({ user }: Props) {
+export default function Home({ user, loan }: Props) {
   const { setUser } = useAuth();
   const { loading } = useLoans();
 
@@ -29,10 +29,10 @@ export default function Home({ user }: Props) {
     return;
   }
   let Total = 0;
-
-  // loan.forEach((lo: loanInterface) => {
-  //   Total += lo.amount;
-  // });
+  const clients: clientInterface[] = [];
+  loan.forEach((lo: loanInterface) => {
+    Total += lo.amount;
+  });
 
   return (
     <div className="blur-in ">
@@ -42,10 +42,10 @@ export default function Home({ user }: Props) {
         </Text>
         Inicio
       </Text>
-      {/* <Text h3 css={{ marginLeft: "$10" }}>
+      <Text h3 css={{ marginLeft: "$10" }}>
         {" "}
         Capital Invertido: ${Total}
-      </Text> */}
+      </Text>
 
       {loading ? (
         <Loading />
@@ -63,7 +63,7 @@ export default function Home({ user }: Props) {
               <Container xs>
                 <Text h2>Proximos Cobros</Text>
 
-                {/* <Grid.Container gap={2} className={"container_clients"}>
+                <Grid.Container gap={2} className={"container_clients"}>
                   {clients ? (
                     clients.map((clients: any) => (
                       <Grid.Container
@@ -107,7 +107,7 @@ export default function Home({ user }: Props) {
                   ) : (
                     <Text>No Hay Cobros Para Hoy</Text>
                   )}
-                </Grid.Container> */}
+                </Grid.Container>
               </Container>
             </Row>
           </Container>
@@ -129,18 +129,18 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     },
   };
   try {
-    const [userResponse] = await Promise.all([
+    const [userResponse, loanResponse] = await Promise.all([
       axios.get(`${API}/profile`, config),
-      // axios.get(`${API}/loan/payment`, config),
-      // axios.get(`${API}/loan`, config),
+      // axios.get(`${API}/loan/payment-day`, config),
+      axios.get(`${API}/loan`, config),
     ]);
 
     const { data: user } = userResponse;
-    // const { data: loan } = loanResponse;
+    const { data: loan } = loanResponse;
     // const { data: clients } = clientsResponse;
 
     return {
-      props: { user },
+      props: { user, loan },
     };
   } catch (error) {
     return {

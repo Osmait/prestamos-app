@@ -68,7 +68,7 @@ export function Charts() {
 
   if (dataAnual) {
     for (let v of dataAnual) {
-      let index = parseInt(v.createAt.split("-")[1]);
+      let index = Number(v.CreateAt[1]);
 
       mesesIncome[index - 1] += v.amount!;
     }
