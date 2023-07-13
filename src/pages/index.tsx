@@ -1,7 +1,7 @@
 import { Charts } from "@/components/charts";
 import useAuth from "@/hooks/useAuth";
 import useLoans from "@/hooks/usePrestamos";
-import { clientInterface } from "@/interface/client";
+
 import { loanInterface } from "@/interface/loan";
 
 import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -15,12 +15,12 @@ import Loading from "../components/loading";
 
 type Props = {
   user: any;
-  // clients: clientInterface[];
+  loanDate: loanInterface[];
   loan: loanInterface[];
 };
 const API = process.env.NEXT_PUBLIC_API;
 
-export default function Home({ user, loan }: Props) {
+export default function Home({ user, loan, loanDate }: Props) {
   const { setUser } = useAuth();
   const { loading } = useLoans();
 
@@ -29,7 +29,7 @@ export default function Home({ user, loan }: Props) {
     return;
   }
   let Total = 0;
-  const clients: clientInterface[] = [];
+
   loan.forEach((lo: loanInterface) => {
     Total += lo.amount;
   });
@@ -64,13 +64,13 @@ export default function Home({ user, loan }: Props) {
                 <Text h2>Proximos Cobros</Text>
 
                 <Grid.Container gap={2} className={"container_clients"}>
-                  {clients ? (
-                    clients.map((clients: any) => (
+                  {loanDate ? (
+                    loanDate.map((loan: loanInterface) => (
                       <Grid.Container
                         direction="row"
                         gap={2}
                         className="blur-in"
-                        key={clients.id}
+                        key={loan.id}
                       >
                         <Grid xs={12} md>
                           <Card variant="bordered" isPressable isHoverable>
@@ -79,7 +79,7 @@ export default function Home({ user, loan }: Props) {
                             >
                               <FontAwesomeIcon icon={faUser} width={"20px"} />
                               <Text span>
-                                {clients.paymentDate.split("T")[0]}
+                                {/* {loan.paymentDate.split("T")[0]} */}
                               </Text>
                             </Card.Header>
 
@@ -89,7 +89,7 @@ export default function Home({ user, loan }: Props) {
                                 transform="capitalize"
                                 css={{ textAlign: "center" }}
                               >
-                                {clients.client.name}
+                                {loan.client}
                               </Text>
 
                               <Text
@@ -97,7 +97,7 @@ export default function Home({ user, loan }: Props) {
                                 transform="capitalize"
                                 css={{ textAlign: "center" }}
                               >
-                                $ {clients.amount}
+                                $ {loan.amount}
                               </Text>
                             </Card.Body>
                           </Card>
@@ -129,18 +129,18 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     },
   };
   try {
-    const [userResponse, loanResponse] = await Promise.all([
+    const [userResponse, loanResponse, loanDateResponse] = await Promise.all([
       axios.get(`${API}/profile`, config),
-      // axios.get(`${API}/loan/payment-day`, config),
       axios.get(`${API}/loan`, config),
+      axios.get(`${API}/loan/payment-day`, config),
     ]);
 
     const { data: user } = userResponse;
     const { data: loan } = loanResponse;
-    // const { data: clients } = clientsResponse;
+    const { data: loanDate } = loanDateResponse;
 
     return {
-      props: { user, loan },
+      props: { user, loan, loanDate },
     };
   } catch (error) {
     return {

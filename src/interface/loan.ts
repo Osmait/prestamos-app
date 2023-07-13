@@ -1,5 +1,3 @@
-import { Dayjs } from "dayjs";
-
 export enum Frecquency {
   MONTHLY,
   BIWEEKLY,
@@ -14,6 +12,7 @@ export interface loanInterface {
   frequency: Frecquency;
   isPaid: boolean;
   amountOfPayments: number;
+  client: string;
   CreateAt: String;
   UpdateAt: String;
 }
