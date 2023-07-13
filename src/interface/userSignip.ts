@@ -3,4 +3,5 @@ export interface userSingUp {
   lastName: String;
   email: String;
   password: String;
+  address: String;
 }

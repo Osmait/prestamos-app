@@ -25,6 +25,7 @@ export default function Registrar() {
       lastName: formData.get("lastName") as String,
       email: formData.get("email") as String,
       password: formData.get("password") as String,
+      address: "santiago",
     };
     try {
       await signUp(data);
@@ -36,7 +37,6 @@ export default function Registrar() {
       //     toast.error(message);
       //   }
       // );
-      console.log(error);
     }
   };
 

@@ -24,7 +24,7 @@ type Props = {
 export default function Loan({ loans }: Props) {
   const [listLoan, setListLoan] = useState(loans);
 
-  const [filter, setFilter] = useState(true);
+  // const [filter, setFilter] = useState(true);
   const handleDelete = async (id: number) => {
     const token = Cookies.get("token");
     if (!token) {
