@@ -79,7 +79,7 @@ export default function Home({ user, loan, loanDate }: Props) {
                             >
                               <FontAwesomeIcon icon={faUser} width={"20px"} />
                               <Text span>
-                                {/* {loan.paymentDate.split("T")[0]} */}
+                                {` ${loan.paymentDate[0]}-${loan.paymentDate[1]}-${loan.paymentDate[2]}`}
                               </Text>
                             </Card.Header>
 
